@@ -1,14 +1,16 @@
-EOS(c)-Formates
-===============
+EOS-Formates
+============
 
 job-format
 ----------
 * read .job files for Process-controlling-Software of EOS GmbH(c) of 3D Printers
 * C++ Library (visual Studio 2013)
+* or use as commad line tool to convert eos .job files to .xml.
+   /job-format/Debug/job-format.exe "myjob.job"
 
 Demo
 ----
-* Demonstration tool to show .job Files as a config tree
+* Demonstration application for viewing .job files in a treeview
 * C# (visual Studio 2013)
 
 

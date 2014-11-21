@@ -1,21 +1,5 @@
 #include "main.h"
 
-//---------------------------------------------------//
-void fillTreeView(clJobFileInterpreter * jLib, int keyID)
-{
-	int id = jLib->getFirstKeyChild(keyID);
-	while (id > 0)
-	{
-		//printf("%s\n", jLib->getKeyName(id));
-		printf("%i\n", id);
-
-		fillTreeView(jLib, id);
-
-		id = jLib->getNextKeyChild(id);
-	}
-
-}
-
 
 int main(int argc, char* argv [])
 {
@@ -25,17 +9,8 @@ int main(int argc, char* argv [])
 	if (argc > 1)
 	{
 		jobFile.readFromFile(argv[1]);
+		jobFile.printXML();
 	}
-	else
-	{
-		jobFile.readFromFile("D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\ScanV_Micro.Job");
-	}
-
-
-	//jobFile.printXML();
-
-
-	fillTreeView(&jobFile, 0);
 
 }
 

@@ -10,6 +10,18 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="job-format\clError.h" />
+    <ClInclude Include="job-format\clJobFile.h" />
+    <ClInclude Include="job-format\clJobFileInterpreter.h" />
+    <ClInclude Include="job-format\main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="job-format\clError.cpp" />
+    <ClCompile Include="job-format\clJobFile.cpp" />
+    <ClCompile Include="job-format\clJobFileInterpreter.cpp" />
+    <ClCompile Include="job-format\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{785B9C6A-175C-45A7-AE49-4D9C3C5E7E72}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,18 +89,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="clError.cpp" />
-    <ClCompile Include="clJobFile.cpp" />
-    <ClCompile Include="clJobFileInterpreter.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="clError.h" />
-    <ClInclude Include="clJobFile.h" />
-    <ClInclude Include="clJobFileInterpreter.h" />
-    <ClInclude Include="main.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
+    <ClInclude Include="job-format\main.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="clError.h">
+    <ClInclude Include="job-format\clError.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="clJobFile.h">
+    <ClInclude Include="job-format\clJobFile.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="clJobFileInterpreter.h">
+    <ClInclude Include="job-format\clJobFileInterpreter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="job-format\clError.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="clError.cpp">
+    <ClCompile Include="job-format\clJobFile.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="clJobFile.cpp">
+    <ClCompile Include="job-format\clJobFileInterpreter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="clJobFileInterpreter.cpp">
+    <ClCompile Include="job-format\main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
