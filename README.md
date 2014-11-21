@@ -5,8 +5,8 @@ job-format
 ----------
 * read .job files for Process-controlling-Software of EOS GmbH(c) of 3D Printers
 * C++ Library (visual Studio 2013)
-* or use as commad line tool to convert eos .job files to .xml.
-   /job-format/Debug/job-format.exe "myjob.job"
+* or use as commad line tool to convert eos .job files to .xml.<br />
+  <code> /job-format/Debug/job-format.exe "myjob.job"</code>
 
 Demo
 ----
