@@ -93,6 +93,7 @@ namespace Demo
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return 0;
             }
         }
@@ -107,6 +108,7 @@ namespace Demo
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return 0;
             }
         }
@@ -120,6 +122,7 @@ namespace Demo
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return 0;
             }
         }
@@ -134,6 +137,7 @@ namespace Demo
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return 0;
             }
         }

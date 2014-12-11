@@ -1,0 +1,906 @@
+<html>
+<body>
+<head>
+<title>
+COMMON LAYER INTERFACE (CLI)</title></head>
+(source: <a href="https://www.forwiss.uni-passau.de/~welisch/papers/cli_format.html">https://www.forwiss.uni-passau.de/~welisch/papers/cli_format.html</a>)
+
+
+
+
+
+
+
+
+
+
+
+<h1><p>COMMON LAYER INTERFACE (CLI)</p></h1>
+
+<h3><p>VERSION  2.0
+</p></h3>
+
+<hr>
+
+<h2>Introduction
+</h2>
+
+<p>The Common Layer Interface (CLI) is a universal format for the input of geometry data to 
+model fabrication systems based on layer manufacturing technologies (LMT).  It is suitable for 
+systems using layer-wise photo-curing of resin, sintering or binding of powder, cutting of sheet 
+material, solidification of molten material, and any other systems which build models on a 
+layer-by-layer basis.
+
+<p>CLI is intended as a simple, efficient and unambiguous format for data input to all LMT-based 
+systems, based on a "2 1/2D" layer representation.  It is independent of vendors or fabrication 
+machines, and should require only a simple conversion to the vendor-specific internal data 
+structure of the machine.  The obligatory parts of the format are also application independent, 
+while the USERDATA command allows user- or application-specific data to be defined in the 
+header.  This flexibility allows the format to be used for a wide range of applications, without 
+loss of important information and without excluding data transfer between different 
+applications.  One specific application, medical scan data, is already accommodated with 
+appropriate user data.  Others can be added as they are defined.
+
+<p>Comments and suggestions for future versions are welcome, and should be forwarded to one 
+of the contacts named in Appendix A.
+
+
+<h2><p>1.	Definitions and general conventions
+</p></h2>
+
+<h3>1.1.	2 1/2D-Representation
+</h3>
+<p>The geometrical information of the intersection of a 3D-model with a plane is called a 
+slice. The volume between two parallel slices is called a layer. The 2 1/2D-representation 
+of a model is the sum total of layer-descriptions. The slicing plane is parallel to the xy-
+plane of a right hand cartesian coordinate system. It is assumed that the building 
+direction is the positive z-axis. </p>
+
+<h3>1.2.	Layer
+</h3>
+<p>A layer is the volume between two parallel slices, and is defined by its thickness, a set 
+of contours and (optionally) hatches.
+</p>
+
+<h3>1.3.	Contour
+</h3>
+<p>Contours represent the boundaries of solid material within a layer, and are defined by 
+polylines (section 1.4). They are classified as internal and external contours (Fig.1). For 
+correct interpretation each contour must be closed and must not intersect itself or 
+another contour.
+</p>
+
+
+<IMG SRC="cli1.gif">
+
+<p><pre>               (Fig 1)</pre>
+</p>
+
+<h3>1.4.	Polyline
+</h3>
+<p>A polyline is defined by a set of vertex points (x,y), connected contiguously in the listed 
+order by straight line segments. A closed polyline can also be called a polygon.
+</p>
+
+<h3>1.5.	Hatches
+</h3>
+<p>A hatch is a set of independent straight lines, each defined by one start and one end 
+point (x,y).  The purpose of hatches and open polylines is to define support structures 
+or filling structures to obtain a solid model, which are necessary for some LMT 
+systems.
+
+
+<h2><p>2.	ASCII Data Format</p></h2>
+
+<h3>2.1.	File Structure
+</h3>
+<p>The ASCII-file is separated into sections. Each section is marked by a start and an end 
+marker.
+Only the characters A...Z, a...z, , ., 0...9, $ and the separators (section 2.4) are 
+interpreted. All other characters will be ignored.
+Each file must have a HEADER-section and a GEOMETRY-section. Other sections 
+are optional. The start of the HEADER-section will be interpreted as the start of data, 
+and the end of the GEOMETRY-section as the end of data.
+Data may be included before the HEADER-section and after the GEOMETRY-section, 
+but will be ignored.
+</p>
+
+<h3>2.2.	General Syntax
+</h3>
+<p>All commands have the general form:
+<dl>
+	<dd><p>Keyword/parameter
+</dl>
+<p>Keyword and parameter are separated by the character "/" (oblique stroke). If there are 
+no parameters there should be no oblique stroke. The only exception to this rule is the 
+command "//" (see description below).
+</p>
+
+<h4>2.2.1.	Keywords
+</h4>
+<p>Keywords are names according to the language description defined below. All 
+keywords are written in ASCII upper case notation. Every keyword must start with the 
+sequence "$$".
+</p>
+
+<h4>2.2.2.	Parameters
+</h4>
+<p>Parameters are numbers or ASCII-strings separated by the character "," (comma).
+</p>
+
+<h3>2.3.	Numbers</h4> 
+
+<dl><dt><p>INTEGER:</p>
+<dd>+/- k1...kn	:	every ki is a number from 0 to 9.
+</dl>
+<p>Negative numbers must have a minus sign, positive numbers can have a plus sign. 
+Numbers with no sign are interpreted as positive. Maximum range is +/- 2^31.
+</p>
+
+<dl><dt><p>REAL:</p>
+<dd>+/- x1...xn.y1...ym
+<dd>n >= 0, m >= 0
+<dd>1 <= (n + m) <= realim</dl>
+<p>xi,yi are numbers from 0 to 9, respectively before and after the decimal point.
+Realim is the maximum number of digits within a REAL and is limited to 16.
+A decimal point is required for all REAL numbers.
+</p>
+
+<h3>2.4.	Separators
+</h3>
+<p>Separators are "/" (oblique stroke), "," (comma) and "//" (double stroke).
+</p>
+
+<h3>2.5.	ASCII-strings
+</h3>
+<p>An ASCII-string is any number of valid characters enclosed within double-quotes. 
+Valid characters are all printable characters except the double-quotes.</p>
+
+
+
+
+<h2>3.	ASCII Language Description
+</h2>
+
+<h3><p>3.1.	Non geometric commands</p>
+</h3>
+
+<h4>3.1.1.	Comments
+</h4>
+<p>Command :   remark
+<br>
+Syntax :   // text //<br>
+<p>This is an exception to the general syntax. The text between the // commands will be 
+interpreted as a comment. Within the comment the double stroke is not allowed.
+</p>
+
+<h4>3.1.2.	Structure </h4>
+<p>Command :   start header<br>
+Syntax :  $$HEADERSTART
+<br>
+<p>This command starts the HEADER-section, and will be interpreted as the start of data.
+<br>
+___________
+
+<p>Command :   end header
+<br>
+Syntax :  $$HEADEREND
+<br>
+This command ends the HEADER-section.<br>
+___________
+
+<p>Command :   start geometry
+<br>
+Syntax :  $$GEOMETRYSTART
+<br>
+This command starts the GEOMETRY-section
+<br>
+___________
+
+<p>Command :   end geometry (and end data)
+<br>
+Syntax :  $$GEOMETRYEND<br>
+This command ends the GEOMETRY-section, and will be interpreted as the end of 
+data.<br>
+___________
+</p>
+
+
+<h4>3.1.3.	HEADER-Information
+</h4>
+<p>Command :   data format is binary
+<br>
+Syntax :  $$BINARY
+<br>
+Indicates the data in the GEOMETRY-section to be binary.
+<br>
+__________
+
+<p>Command :   data format is ASCII
+<br>
+Syntax :  $$ASCII
+<br>
+Indicates the data in the GEOMETRY-section to be ASCII.
+<br>
+___________
+
+<p>Command :   units are u [mm]
+<br>
+Syntax :  $$UNITS/u
+<br>
+Parameter u : REAL
+<br>
+u indicates the units of the coordinates in mm. <br>
+__________
+
+<p>Command :   version is v
+<br>
+Syntax :  $$VERSION/v
+<br>
+Parameter v : integer
+<br>
+v divided by 100 gives the version number.
+<br>
+For example 200 --> Version 2.00<br> 
+__________
+
+<p>All following HEADER-commands are optional.
+
+<p>Command :   file was built on date
+<br>
+Syntax :  $$DATE/d
+<br>
+Parameter d : integer
+<br>
+d will be interpreted in the sequence DDMMYY. <br>
+___________
+
+<p>Command :   dimension
+<br>
+Syntax :  $$DIMENSION/x1,y1,z1,x2,y2,z2
+<br>
+Parameters:
+<br>
+x1, y1, z1, x2, y2, z2 : REAL
+<br>
+<p>Describes the dimensions of the outline box which completely contains the part in 
+absolute coordinates (in mm) with respect to the origin. The conditions x1 < x2 , y1 < 
+y2 and z1 < z2 must be satisfied.
+<br>
+___________
+
+<p>Command :   number of layers inside the file is i
+<br>
+Syntax :  $$LAYERS/i
+<br>
+Parameter i : INTEGER
+<br>
+The Parameter i indicates the number of layers inside the file.
+<br>
+___________
+
+<p>Command :	align data in GEOMETRY-section to 32 bit
+(for binary GEOMETRY-section only)
+<br>
+Syntax :  $$ALIGN
+<br>
+<p>Sets the alignment of geometry-data to 32 bit. The command only takes effect in case 
+of a binary GEOMETRY-section. The GEOMETRY-section must start at the 
+beginning of a 32-bit-word. The HEADER-section must end at the end of a 32-bit-
+word. Every data item within the GEOMETRY-section must start at the beginning of a 
+32-bit-word. A pair of coordinates (x,y) is seen as one data item. For the commands 
+start polyline short and start hatches short a pair of coordinates (x,y) are to be written 
+into one 32-bit-word.
+</p>
+<p>Example:
+<br>
+($$ALIGN in HEADER-section)
+</p>
+<pre>
+Byte	1	2	3	4	5	6	7	8	9........
+	127	#	#	#	4	1	#	#	129....
+___________
+</pre>
+
+<p>Command :   set a label for a part
+<br>
+Syntax :  $$LABEL/id,text
+<br></p>
+<dl>
+<dt>Parameter	
+<dd>id	: INTEGER
+<dd>text	: ASCII-string
+</dl>
+
+<p>id: Identifier to allow more than one model information in one file. For every id used in 
+the commands start polyline (short/long/ASCII) and start hatches 
+(short/long/ASCII) there shall be one command $$LABEL. Each id causes the 
+building-process to build a different part.
+<p>text: An ASCII string that gives some comment on the part.
+<br>
+___________
+
+<p>Command :   put user-specific data to the header
+<br>
+Syntax :  $$USERDATA/uid,len,user-data
+<br>
+Parameters:
+<br><dl>
+	<dd>uid :	ASCII-string
+	<dd>len :	long integer
+	<dd>user-data:	field of data (binary or ASCII); length is len bytes
+</dl></p>
+<p>uid:	user identifier - identifies user and the following user-data.
+uid and user-data shall be cleared and published by a central coordinator (e.g. 
+task coordinator).
+<p>Example: $$USERDATA/"CompanyZZ9401",....
+<br>
+len:	defines the length of user-data in bytes from the byte after the comma after the 
+parameter len to the byte before the following $$command.
+user-data: field of user-specific data; the length of this field is defined by the parameter 
+len; the contents of this field is defined by the user himself.
+<br>
+___________
+</p>
+
+<h3>3.2.	Geometric Commands
+</h3>
+
+<p>Command :   start layer
+<br>
+Syntax :   $$LAYER/z
+<br>
+Parameter z : REAL
+<br>
+Start of a layer with upper surface at height z (z*units [mm]). All layers must be sorted 
+in ascending order with respect to z. The thickness of the layer is given by the 
+difference between the z values of the current and previous layers.  A thickness for the 
+first (lowest) layer can be specified by including a "zero-layer" with a given z value but 
+with no polyline.
+<br>
+___________
+
+<p>Command :   start polyline
+<br>
+Syntax :  $$POLYLINE/id,dir,n,p1x,p1y,...pnx,pny
+<br>
+Parameters:
+<br><pre>
+	id		: INTEGER
+	dir,n		: INTEGER
+	p1x..pny	: REAL
+</pre><br>
+id : identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).<br>
+dir : Orientation of the line when viewing in the negative z-direction
+<br>
+0 : clockwise (internal)
+<br>
+1 : counter-clockwise (external)<br>
+2 : open line (no solid)
+<br>
+n : number of points
+<br>
+p1x..pny : coordinates of the points 1..n
+
+<p>Polylines representing internal contours must be clockwise, polylines representing 
+external contours counter-clockwise (Fig 2). This orientation must be valid for the 
+parameter "dir" and for the order the points are listed. The value of "dir " overwrites 
+the order of listed points if there is a mismatch.
+<p>In the case of closed polylines (dir = 0,1)  p1x = pnx and p1y = pny must be valid.
+The open line value for the dir flag can be used to indicate a non-closed polyline. This 
+can be used as an input for correction and editing tools based on the CLI format. </p>
+
+<img src="cli2.gif">		 
+<p><pre>                Fig 2</pre>
+<br>
+___________
+
+<p>Command :   start hatches
+<br>
+Syntax :  $$HATCHES/id,n,p1sx,p1sy,p1ex,p1ey,...pnex,pney
+<br>
+Parameters:
+<br><pre>
+	id		: INTEGER
+	n		: INTEGER
+	p1sx..pney	: REAL
+</pre>
+<p>id : identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).
+<br>
+n : number of hatches (n*4 =number of coordinates)
+<br>
+p1sx..pney : coordinates of the hatches 1..n
+<br>
+4 parameters for every hatch (startx,starty,endx,endy)
+<br>
+___________
+</p>
+
+
+<h2>4. ASCII-Data-File-Example
+</h2>
+
+<p><pre>$$HEADERSTART
+// This is a example for the use of the Layer Format //
+$$ASCII     
+$$UNITS/1              // all coordinates are given in mm  // 
+// $$UNITS/0.01     all coordinates are given in units 0.01 mm //      
+$$DATE/070493                       // 7. April 1993 //
+$$LAYERS/100                        //  100 layers //
+$$HEADEREND                               
+
+$$GEOMETRYSTART          // start of GEOMETRY-section//
+$$LAYER/5.5              // Layer at height z = 5.5 mm//
+
+$$POLYLINE/0,0,5,1.00,2.02,3.30,3.42,5.23,5.01,1.57,5.6,1.00,2.02
+$$HATCHES/0,2,10.2,10.4,12.34,12.5,8.8,9.3,15.7,13.2
+$$POLYLINE/0,1,10,1.2,4.01,...........
+..
+..
+$$LAYER/5.6
+$$POLYLINE/0,0,200,10.23,12.34,..........................
+..........
+..
+..
+$$LAYER/15.5
+$$POLYLINE/0,0,200,13.23,12.34,..........................
+..........
+..
+..
+$$GEOMETRYEND
+</pre>
+
+
+<h2>5.	Binary Data Format
+</h2>
+
+<h3><p>5.1.	File structure
+</h3>
+<p>The binary-data-file is separated into two sections : a header-section in ASCII data 
+format and a geometry-section in binary data format. For header-section commands see 
+section 3.1.3.
+<p>The start of the header-section will be interpreted as start of data.
+<br>
+The end of the geometry-section will be interpreted as the end of  data.<br>
+The end of the header-section must be indicated by a $$HEADEREND command.
+<br>
+The geometry-section must directly follow the header-section (directly after the 
+command $$HEADEREND) without any kind of information (carriage return, line 
+feed etc.) in between.
+</p>
+
+<h3>5.2.	General Binary Syntax</h3>
+<p>All commands have the following general form:
+<br>
+CommandIndex,p1,p2,...pn
+<br>
+There is no separator between Command Index and parameters, nor within the 
+parameter-section.</p>
+
+<h4>5.2.1.	Command Index (CI)
+</h4>
+<p>Command Index is a number (unsigned integer) indicating the command according to 
+the command list below.
+</p>
+
+<h4>5.2.2.	Parameters
+</h4>
+<p>The parameters p1.. pn are numbers according the specification below. </p>
+
+<h3>5.3.	Numbers
+</h3>
+<p>Numbers are specified using the IEEE standard.
+<br><br>
+
+
+
+<pre>
+Data Formats      Range         Precision       Representation
+----------------------------------------------------------------------------
+Unsigned	  10^4          16 Bits         [15...0] (Two's Complement)
+Integer
+
+Long 		  10^(+/- 9)    32 Bits         [31...0] (Two's Complement)
+Integer
+
+Real              10^(+/- 38)   24 Bits	        [31|30..23|22..0]
+				                    s      e    f
+					             s: sign bit 
+                                                     e: Biased Exponent
+						     f: Significand
+
+
+				Fig. 3</pre><pre>
+
+if 0 < e < 255 then v = (-1)^s * 2^(e-127) * (1.f)
+if e=0 and f<>0 then v = (-1)^s * 2^(-126) * (0.f)
+if e=0 and f=0 then v = (-1)^s * 0
+Where e is the Biased Exponent,
+	s is the sign bit,
+	f is the significand, and
+	v the value.
+unsigned INTEGER :	2 Bytes
+			range  0..65535
+			precision  16 Bits
+long INTEGER :	4 Bytes
+			range  0..+/- 231
+			precision  32 Bits
+REAL:			4 Bytes
+			range  10 +/- 38
+			precision  24 Bits 
+
+most significant Byte  =  highest addressed Byte.
+</pre></p>
+
+
+<h2>6.	Binary Language Description
+</h2>
+
+<p><h3>6.1.	Non-geometric commands</h3>
+<p>No non-geometric commands are specified in version 2.0.
+</p>
+
+<h3>6.2.	Geometric Commands
+</h3>
+<pre>
+Command : Start Layer long
+CI,z
+CI	127
+Parameter z : REAL
+</pre>
+<p>Start of a layer with upper surface at height z (z*units [mm]). All layers must be sorted 
+in ascending order with respect to z. The thickness of the layer is given by the 
+difference between the z values of the current and previous layers.  A thickness for the 
+first (lowest) layer can be specified by including a "zero-layer" with a given z value but 
+no polyline.<br>
+___________
+<br><br>
+
+Command : Start Layer short
+<br>
+CI,z
+<br>
+CI	128
+<br>
+Parameter z : unsigned INTEGER
+<br>
+Start of a layer with upper surface at height z (z*units [mm]). All layers must be sorted 
+in ascending order with respect to z.
+<br>
+___________
+<br><br>
+
+Command : Start PolyLine shortCommand :    Start PolyLine <br>
+CI,id,dir,n,p1x,p1y,...pnx,pny
+<br><pre>
+CI	129
+Parameters:
+	id :	unsigned INTEGER
+	dir,n :	unsigned INTEGER
+	p1x..pny :	unsigned INTEGER
+</pre><br>
+id :	identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).
+<br>
+dir : orientation of the line when viewing in the negative z-direction
+<br><dl>
+	<dd>0 : clockwise
+	<dd>1 : counter clockwise
+	<dd>2 : open line
+</dl><br>
+n : number of points
+<br>
+p1x..pny : coordinates of the points 1..n
+<br>
+See also section 3.2 command $$POLYLINE and section 3.1.3 command $$ALIGN 
+<br>
+and $$ LABEL
+<br>
+___________
+<br><br>
+
+Command : Start PolyLine long
+<br>
+CI,id,dir,n,p1x,p1y,...pnx,pny
+<br><pre>
+CI	130
+Parameters:
+	id : 		long INTEGER
+	dir,n :         long INTEGER
+	p1x..pny : 	REAL
+</pre><br>
+id : identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).
+<br>
+dir : orientation of the line when viewing in the negative z-direction
+<br><dl>
+	<dd>0 : clockwise
+	<dd>1 : counter clockwise
+	<dd>2 : open line
+<dl><br>
+n : number of points
+<br>
+p1x..pny : coordinates of the points 1..n
+<br>
+See also section 3.2 command $$POLYLINE and section 3.1.3 command $$ALIGN <br>
+and $$ LABEL.
+<br>
+___________
+<br><br>
+
+Command : Start Hatches short
+<br>
+CI,id,n,p1sx,p1sy,...pnex,pney
+<br><pre>
+CI	131
+Parameters:
+	id	     : unsigned INTEGER
+	n	     : unsigned INTEGER
+	p1sx..pney : unsigned INTEGER
+</pre><br>
+id : identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).
+<br>
+n : number of hatches (n*4 = number of coordinates)
+<br>
+p1sx..pney : coordinates of the hatches 1..n
+<br>
+See also section 3.2 command $$POLYLINE and section 3.1.3 command $$ALIGN <br>
+and $$ LABEL
+<br>
+___________
+<br>
+
+<br>
+
+
+Command : Start Hatches longCommand :    Start PolyLine 
+<br>
+CI,id,n,p1sx,p1sy,...pnex,pney
+<br><pre>
+CI	132
+Parameters:
+	id	     :   long INTEGER
+	n	     :   long INTEGER
+	p1sx..pney :  REAL
+</pre><br>
+id : identifier to allow more than one model information in one file.
+<br>
+id refers to the parameter id of command $$LABEL (HEADER-section).
+<br>
+n : number of hatches (n*4 = number of coordinates)
+<br>
+p1sx..pney : coordinates of the hatches 1..n
+<br>
+See also section 3.2 command $$POLYLINE and section 3.1.3 command $$ALIGN 
+<br>
+and $$ LABEL
+<br>
+__________
+</p>
+
+
+<h2>Appendix A  -  Development of the Common Layer Interface (CLI)
+</h2>
+
+<p>Development of the Common Layer Interface (CLI) originated in the Brite-EuRam Project 
+"Rapid Prototyping Techniques", whose work programme identified the following need:
+
+<p>"Problems with the current STL interface (triangle model) force us to look for a 
+new data format for general LMT-processes, which may only contain cross 
+section information...  The section oriented information should be vendor 
+independent."
+
+<p>Simultaneously, the Brite-EuRam Project "Phidias" was working to establish and make 
+available an interface between medical scan data and layer manufacturing technologies. 
+Cooperation between these two projects, together with comments and contributions from third 
+parties, led to the development of CLI version 2.0.
+
+<p>Further development and dissemination of the CLI is also continuing in cooperation with 
+EARP (the European Action on Rapid Prototyping), an organization of companies and 
+institutions throughout Europe which are actively working with rapid prototyping.  The up-to-
+date version of CLI is (from September 1994) continuously available to Internet users under 
+the World Wide Web, at the address given on the next page.  This also provides a forum for 
+Internet users to discuss their use of CLI and make suggestions.
+
+<p>Alternatively, copies of the CLI specification can be obtained from the Brite EuRam project 
+contacts listed.</p>
+
+
+<h3>CLI Development Group
+</h3>
+
+<p<Brite EuRam project BE 5278 "RPT - Development and Integration of Rapid Prototyping 
+Techniques for the Automotive Industry".  Partners:
+<br>
+BIBA, Germany
+<br>
+BMW AG, Germany
+<br>
+Centro Recherche FIAT, Italy
+<br>
+CRIF, Belgium
+<br>
+EOS GmbH, Germany
+<br>
+IKP, Germany
+<br>
+Mercedes Benz AG, Germany
+
+<p>Brite EuRam project BE 5930 "Phidias - Laser Photopolymerisation Models based on Medical 
+Imaging: a Development Improving the Accuracy of Surgery".  Partners:
+<br>
+Katholieke Universiteit Leuven, Belgium
+<br>
+Materialise NV, Belgium
+<br>
+Siemens Medical Engineering Group, Germany
+<br>
+Zeneca Ltd, United Kingdom
+/p>
+
+
+
+
+<h3>Contacts
+</h3>
+
+<p>Internet addresses for the CLI specification, the EARP electronic book and other information 
+on rapid prototyping (on the World Wide Web hypertext multi-media system):
+
+<p>http://www.cs.hut.fi~ado/rp/rp.html	(Mr Andre Dolenc, Helsinki University)
+<br>
+http://www.cranfield.ac.uk	(Mr Ron. Jamieson, Cranfield University)
+
+
+<p>Brite EuRam RPT project:
+
+<p>Dr M. Shellabear	Tel: +49 (89) 899131-0
+<br>
+EOS GmbH	Fax: +49 (89) 8598402
+<br>
+Pasinger Str. 2
+<br>
+D-82152 Planegg
+<br>
+Germany
+
+
+<p>Brite EuRam PHIDIAS project:
+
+<p>Prof W. Kalender	Tel: +49 (9131) 84-7736<br>
+Siemens AG, UB Med	Fax: +49 (9131) 84-6365<br>
+Postfach 3260
+<br>
+D-91052 Erlangen
+<br>
+Germany
+</p>
+
+
+
+<h2>Appendix B  -  Header section for medical applications
+</h2>
+
+
+<h3><p>Introduction
+</h3>
+<p>This appendix describes a proposal for a $$USERDATA header section (see 3.1.3) to be used 
+for medical applications.
+<p>The extension of the CLI-Header proposed here describes the absolute minimum of labeling 
+considered necessary for medical applications. The definitions are part of work performed 
+within the Brite-Euram project Phidias towards the development of a format for the exchange 
+of segmentation results.
+<p>The additions are primarily inserted in order to achieve unambiguous documentation and 
+labeling of the history of the data generation process and of the patient orientation in medical 
+applications. For the actual model building process they can be ignored. The CLI-file 
+generation programm must ensure that if x- and y-coordinates and the positive z-direction are 
+interpreted as righthand system, an anatomically correct model will result!
+With respect to the coordinate interpretation the following assumptions common in slice 
+oriented imaging modalities are made:
+<p>The "volume"/"model"/"stack of layers" coordinate system is defined as a righthand system 
+with the following properties
+<br><pre>
+*	x- and y-axis lie within the image/layer plane with
+			(x) pointing from left to right
+			(y) pointing from top  to bottom
+*	The z-axis is orthogonal to the slice/image/layer plane with
+			(z) pointing into the image plane
+*	The patient orientation is described by another righthand system defined by three base 
+vectors:
+ 	medial-rightlateral	(nose->right ear)	as x-axis
+ 	posterior-anterior	(spine->chest)		as y-axis: "FRONT-VECTOR"
+ 	caudo-cranial		(foot->head)		as z-axis: "HEAD-VECTOR"
+</pre>
+<p>The "cartesian coordinates" of HEAD-VECTOR and FRONT-VECTOR in the layer 
+coordinate system fully specify the patient orientation!
+Gantry tilt must be taken into account when converting image matrix coordinates into the layer 
+coordinate system! For the sake of simplicity gantry tilt will be ignored, however, when 
+describing patient orientation (the same effect is caused by putting the patient on a slanted 
+couch).
+<p>
+<pre>
+The following three examples use the definitions
+	axial:		orthogonal to HEAD-VECTOR
+	coronal:	orthogonal to FRONT-VECTOR
+	sagittal:	contains HEAD-VECTOR and FRONT-VECTOR
+
+
+Example 1:	Patient in prone position, axial images reconstructed looking
+		in the cranial direction
+			HEAD-VECTOR  = ( 0,  0,  1)
+			FRONT-VECTOR = ( 0, 1,  0)
+
+Example 2:	Coronal reconstructions looking onto the chest of the patient
+			HEAD-VECTOR  = ( 0, -1,  0)
+			FRONT-VECTOR = ( 0,  0, -1)
+
+Example 3:	Sagittal reconstructions looking from the right to the left
+		side of the patient
+			HEAD-VECTOR  = ( 0, -1,  0)
+			FRONT-VECTOR = ( 1,  0,  0)
+
+Syntax
+
+The $$USERDATA section of the CLI-Header (3.1.3) contains information in ASCII-format of 
+the following form (see also page 11)
+		userdata:		{userdata-item}...{userdata-item}
+		userdata-item:		keyword=text "/0"	("/0" = binary zero)
+
+The following keywords are possible 
+	institution-id		Institution where primary data were generated
+	source-id		Additional information specifying the creation of
+				this file, eg. software package and person generating
+				the data set
+	patient-id		Qualifier uniquely specifying the patient
+	study-id		Qualifier specifying the type of study performed
+	examination-date	Date on which examination was performed
+	slice-thickness	Slice thickness in mm
+	matrix-size		Size of the image matrix (typically 512)
+	pixel-size		Size of one pixel in mm
+	gantry-tilt		Gantry tilt of the examination in degrees
+	front-vector		vector pointing from "spine to chest " expressed in layer
+				coordinates in the form (x,y,z) (see introduction)
+	head-vector		vector pointing from "feet to head" expressed in layer
+				coordinates in the form (x,y,z) (see introduction)
+<pre>
+
+
+
+<p>Example
+<br>
+institution-id=Orthopedic Hospital University of TestTown
+<br>
+source-id=Siemens 3D package Vx.y interactions by Dr. Bone
+<br>
+patient-id=Egon BadLegs I2389/94 20-Jun-1932
+<br>
+study-id=Custom prosthesis left leg
+<br>
+examination-date=20-Jun-1994
+<br>
+slice-thickness=2
+<br>
+matrix-size=512
+<br>
+pixel-size=0.218
+<br>
+gantry-tilt=-7
+<br>
+front-vector=(0,0,1)
+<br>
+head-vector=(0,1,0)
+<br><br>
+
+CLI specification page 21
+</p>
+
+</body>
+</html>

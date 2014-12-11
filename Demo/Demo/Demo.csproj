@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clJobFileLib.cs" />
+    <Compile Include="clSliceDataLib.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
