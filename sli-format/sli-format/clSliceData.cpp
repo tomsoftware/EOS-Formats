@@ -96,6 +96,15 @@ float * clSliceData::getObjectPoints(int partIndex, int objectIndex)
 
 
 //---------------------------------------------------//
+void clSliceData::PartMatrixMult(int partIndex, tyMatrix matrix)
+{
+	if ((partIndex < 0) || (partIndex >= m_partCount)) return;
+
+	MatrixMult(&m_parts[partIndex].transformMatrix, matrix, m_parts[partIndex].transformMatrix);
+}
+
+
+//---------------------------------------------------//
 float * clSliceData::getObjectPointsTransformed(int partIndex, int objectIndex, tyMatrix matrix)
 {
 	if ((partIndex < 0) || (partIndex >= m_partCount)) return NULL;
@@ -115,7 +124,7 @@ float * clSliceData::getObjectPointsTransformed(int partIndex, int objectIndex, 
 
 	//- get transformations matrix
 	tyMatrix newMatrix;
-	MatrixMult(&newMatrix, &matrix, &m_parts[partIndex].transformMatrix);
+	MatrixMult(&newMatrix, matrix, m_parts[partIndex].transformMatrix);
 
 	float m11 = newMatrix.m11;
 	float m12 = newMatrix.m12;
@@ -146,7 +155,7 @@ float * clSliceData::getObjectPointsTransformed(int partIndex, int objectIndex, 
 
 
 //---------------------------------------------------//
-bool clSliceData::drwaRasteredObject(int *outFilledPicture, int * outLinePicture, int partIndex, tyMatrix matrix, int color, int weight, int height)
+bool clSliceData::drawRasteredObject(int *outFilledPicture, int * outLinePicture, int partIndex, tyMatrix matrix, int color, int width, int height)
 {
 	if ((partIndex < 0) || (partIndex >= m_partCount)) return false;
 	if ((outFilledPicture == NULL) && (outLinePicture == NULL)) return false;
@@ -184,10 +193,10 @@ bool clSliceData::drwaRasteredObject(int *outFilledPicture, int * outLinePicture
 				y2 = *pPoint++;
 
 				//- draw polygon line
-				if (outLinePicture != NULL) drawLine(outLinePicture, weight, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
+				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
 
 				//- add points for add Edge flag algorithm
-				if (outFilledPicture != NULL) addEdgeflag(outFilledPicture, weight, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
+				if (outFilledPicture != NULL) addEdgeflag(outFilledPicture, width, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
 
 				x1 = x2;
 				y1 = y2;
@@ -196,7 +205,7 @@ bool clSliceData::drwaRasteredObject(int *outFilledPicture, int * outLinePicture
 	}
 
 	//- fill Object
-	if (outFilledPicture != NULL) fillEdgePoly(outFilledPicture, weight, height, color);
+	if (outFilledPicture != NULL) fillEdgePoly(outFilledPicture, width, height, color);
 	
 
 
@@ -225,7 +234,7 @@ bool clSliceData::drwaRasteredObject(int *outFilledPicture, int * outLinePicture
 				float y2 = *pPoint++;
 
 				//- draw hatch lines
-				if (outLinePicture != NULL) drawLine(outLinePicture, weight, height, x1, y1, x2, y2, color);
+				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, x1, y1, x2, y2, color);
 			}
 		}
 	}
@@ -245,34 +254,35 @@ void clSliceData::IdentityMatrix(tyMatrix * dest)
 
 
 //---------------------------------------------------//
-void clSliceData::MatrixMult(tyMatrix * dest, tyMatrix* A, tyMatrix *B)
+void clSliceData::MatrixMult(tyMatrix * dest, tyMatrix A, tyMatrix B)
 {
-	dest->m11 = A->m11 * B->m11 + A->m12 * B->m21 + A->m13 * 0;
-	dest->m12 = A->m11 * B->m12 + A->m12 * B->m22 + A->m13 * 0;
-	dest->m13 = A->m11 * B->m13 + A->m12 * B->m23 + A->m13 * 1;
+	dest->m11 = A.m11 * B.m11 + A.m12 * B.m21 + A.m13 * 0;
+	dest->m12 = A.m11 * B.m12 + A.m12 * B.m22 + A.m13 * 0;
+	dest->m13 = A.m11 * B.m13 + A.m12 * B.m23 + A.m13 * 1;
 
-	dest->m21 = A->m21 * B->m11 + A->m22 * B->m21 + A->m23 * 0;
-	dest->m22 = A->m21 * B->m12 + A->m22 * B->m22 + A->m23 * 0;
-	dest->m23 = A->m21 * B->m13 + A->m22 * B->m23 + A->m23 * 1;
+	dest->m21 = A.m21 * B.m11 + A.m22 * B.m21 + A.m23 * 0;
+	dest->m22 = A.m21 * B.m12 + A.m22 * B.m22 + A.m23 * 0;
+	dest->m23 = A.m21 * B.m13 + A.m22 * B.m23 + A.m23 * 1;
 
 	return;
 }
 
 //---------------------------------------------------//
-bool clSliceData::clearParts(int partCount)
+bool clSliceData::clearParts(int AllocatePartCount)
 {
 	for (int i = 0; i < m_partLenght; i++)
 	{
 		m_parts[i].objectCount = 0;
 		m_parts[i].transformMatrix = { 0, 0, 0, 0, 0, 0 };
-
+		
 		for (int j = 0; j < m_parts[i].objectLenght; j++)
 		{
 			m_parts[i].objects[j].pointCount = 0;
+			m_parts[i].objects[j].isHatch = false;
 		}
 	}
 
-	createObject(partCount, 0, 0, 0, 0, 0, 0);
+	createPart(AllocatePartCount, 0, 0, 0, 0, 0, 0);
 	m_partCount = 0;
 
 	return true;
@@ -280,12 +290,12 @@ bool clSliceData::clearParts(int partCount)
 
 
 //---------------------------------------------------//
-bool clSliceData::createObject(int partIndex, float m11, float m12, float  m13, float  m21, float  m22, float  m23)
+bool clSliceData::createPart(int partIndex, float m11, float m12, float  m13, float  m21, float  m22, float  m23)
 {
 	//- increase buffer size
 	if (m_partLenght <= partIndex)
 	{
-		int newLenght = partIndex + 10;
+		int newLenght = partIndex+1;
 		tyPart * newObj = new tyPart[newLenght];
 
 		//- copy old objects to new object

@@ -7,6 +7,8 @@ clSliFile::clSliFile()
 {
 	m_IndexTable = NULL;
 	m_IndexTable_lenght = 0;
+
+	reset();
 }
 
 
@@ -16,13 +18,21 @@ clSliFile::~clSliFile()
 {
 	m_file.closeFile();
 
-	if (m_IndexTable != NULL) delete [] m_IndexTable;
-	m_IndexTable = NULL;
-	m_IndexTable_lenght = 0;
-
+	reset();
 }
 
 
+//---------------------------------------------------//
+void clSliFile::reset()
+{
+	if (m_IndexTable != NULL) delete[] m_IndexTable;
+	m_IndexTable = NULL;
+
+	m_IndexTable_lenght = 0;
+
+	memset(&m_FileHead, 0, sizeof(m_FileHead));
+
+}
 
 
 //---------------------------------------------------//
@@ -114,6 +124,12 @@ int clSliFile::getLayerCount(int PartIndex)
 }
 
 //---------------------------------------------------//
+int clSliFile::getPartCount()
+{
+	return 1;
+}
+
+//---------------------------------------------------//
 float clSliFile::getLayerPos(int PartIndex, int LayerIndex)
 {
 	if (PartIndex != 0) return -1;
@@ -122,18 +138,36 @@ float clSliFile::getLayerPos(int PartIndex, int LayerIndex)
 	return m_IndexTable[LayerIndex].layerPos;
 }
 
+//---------------------------------------------------//
+char * clSliFile::getPartName(int PartIndex)
+{
+	if (PartIndex != 0) return NULL;
+	return m_partName;
+}
 
 //---------------------------------------------------//
-bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex)
+char * clSliFile::getPartProperty(int PartIndex)
+{
+	if (PartIndex != 0) return NULL;
+	return "";
+}
+
+
+
+
+//---------------------------------------------------//
+bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex, int storeAsPartIndex)
 {
 	int n = 0;
 	float scaleFactor = m_FileHead.scaleFactor;
 
 	if (PartIndex != 0) return false;
-	if ((LayerIndex < 0) || (LayerIndex >= m_FileHead.LayerCount)) return false;
-	
+	if (storeAsPartIndex == -1) storeAsPartIndex = PartIndex;
 
-	int newObject = sliceData->createObject(PartIndex, scaleFactor, 0, 0, 0, scaleFactor, 0);
+	//- clear old data or define new empty part
+	int newObject = sliceData->createPart(storeAsPartIndex, scaleFactor, 0, 0, 0, scaleFactor, 0);
+
+	if ((LayerIndex < 0) || (LayerIndex >= m_FileHead.LayerCount)) return false;
 
 	m_file.readFilePart(m_IndexTable[LayerIndex].FileOffset, 32);
 
@@ -200,7 +234,7 @@ bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerI
 				n = m_file.readIntBE(2);
 				if (n > 0)
 				{
-					float * points = sliceData->createPolygon(PartIndex, n);
+					float * points = sliceData->createPolygon(storeAsPartIndex, n);
 
 					//- read file
 					m_file.readFilePart(m_file.getOffset(), n * 4 * 2 + 32);
@@ -244,7 +278,7 @@ bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerI
 
 				if (n > 0)
 				{
-					float * points = sliceData->createHatch(PartIndex, n);
+					float * points = sliceData->createHatch(storeAsPartIndex, n);
 
 					//- read file
 					m_file.readFilePart(m_file.getOffset(), n * 4 * 4 + 32);

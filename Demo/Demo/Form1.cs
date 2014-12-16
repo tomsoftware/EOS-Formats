@@ -13,16 +13,41 @@ namespace Demo
 {
     public partial class Form1 : Form
     {
+        private bool m_doingRender = false;
 
         private clJobFileLib jLib;
         private clSliceDataLib sliFile;
         private int picOutput_Start_X=0;
         private int picOutput_Start_Y=0;
+        private int[] colorTable;
+        private static System.Windows.Forms.ListBox s_lstError;
+        private static bool s_showDebug = false;
 
         //---------------------------------------------------//
         public Form1()
         {
             InitializeComponent();
+
+            colorTable = new int[16];
+            colorTable[0] = RGB2int(255, 0, 255);
+            colorTable[1] = RGB2int(255, 0, 0);
+            colorTable[2] = RGB2int(255, 255, 0);
+            colorTable[3] = RGB2int(0, 255, 0);
+            colorTable[4] = RGB2int(0, 255, 255);
+            colorTable[5] = RGB2int(0, 0, 255);
+            colorTable[6] = RGB2int(255, 255, 255);
+            colorTable[7] = RGB2int(128, 128, 128);
+            colorTable[8] = RGB2int(192, 192, 192);
+            colorTable[9] = RGB2int(128, 0, 0);
+            colorTable[10] = RGB2int(128, 128, 0);
+            colorTable[11] = RGB2int(0, 128, 0);
+            colorTable[12] = RGB2int(0, 128, 128);
+            colorTable[13] = RGB2int(0, 0, 128);
+            colorTable[14] = RGB2int(128, 0, 128);
+
+
+            s_lstError = lstError;
+            s_showDebug = chkShowDebug.Checked;
         }
 
         //---------------------------------------------------//
@@ -91,28 +116,101 @@ namespace Demo
             sliFile = new clSliceDataLib();
 
             sliFile.readFromFile(txtSliFileName.Text);
-            sliceLayer.Value = 0;
+            
             sliceLayer.Minimum = 0;
+            sliceLayer.Value = 0;
             sliceLayer.Maximum = sliFile.getLayerCount() - 1;
 
 
+            System.Diagnostics.Debug.Print( sliFile.getLastError());
+
+            refreshPartNameList();
+
             showLayer();
+        }
+
+                
+        //----------------------------------------------//
+        static public void addError(string ErrorString, bool isDebug)
+        {
+            bool doShow = true;
+            if ((!s_showDebug) && (isDebug)) doShow = false;
+
+            string [] split = ErrorString.Split(new Char [] {'\n', '\r'});
+
+            foreach (string s in split) 
+            {
+                if (s.Trim() != "") 
+                {
+                    if (doShow) s_lstError.Items.Add(s);
+                    Console.WriteLine(s);
+                }
+            }
+        }
+        
+
+        //----------------------------------------------//
+        void refreshPartNameList()
+        {
+            lstPartNames.Items.Clear();
+            int layer = sliceLayer.Value;
+
+            int partsCount = sliFile.getPartCount();
+
+            for (int i = 0; i < partsCount; i++)
+            {
+
+                string ExpParName = sliFile.getPartProperty(i);
+
+                bool doCheck = true;
+
+                if (ExpParName.ToLower() == "no_exposure") doCheck = false;
+
+                lstPartNames.Items.Add(getPartListName(i, layer), doCheck);
+            }
+        }
+
+
+        //----------------------------------------------//
+        string getPartListName(int partIndex, int layer)
+        {
+            return d2s(sliFile.getLayerPos(partIndex, layer)) + "\t" + sliFile.getPartName(partIndex) + "\t" + sliFile.getPartProperty(partIndex);
+        }
+
+
+        //----------------------------------------------//
+        bool isPartEnabled(int partIndex)
+        {
+            if ((partIndex < 0) || (partIndex >= lstPartNames.Items.Count) ) return false;
+
+            return lstPartNames.GetItemChecked(partIndex);
         }
 
         //----------------------------------------------//
         void showLayer(int layerIndex=-1)
         {
+            if (m_doingRender) return;
+            m_doingRender = true;
+
+
             if (layerIndex == -1) layerIndex = sliceLayer.Value;
 
             //- get Position of the layer
             labLayerIndex.Text = i2s(layerIndex);
-            labLayerPos.Text = d2s(sliFile.getLayerPos(layerIndex)) + " mm";
+            labLayerPos.Text = d2s(sliFile.getLayerPos(0, layerIndex)) + " mm";
 
-            //- read layer data (only do this if layer has changed)
-            sliFile.readSliceData(layerIndex);
+
 
             //- get Part Count
             int partCount = sliFile.getPartCount();
+
+            for (int part = 0; part < partCount; part++)
+            {
+                //- read layer data (only do this if layer has changed)
+                if (isPartEnabled(part)) sliFile.readSliceData(layerIndex, part);
+            }
+
+
 
             //- create transformations Matrix (only 2d but Homogeneous coordinates)
             clSliceDataLib.clMatrix3x2 m = new clSliceDataLib.clMatrix3x2();
@@ -147,11 +245,15 @@ namespace Demo
                 img_polyline = new int[w, h];
             }
 
+
+
             //- rander slice
             for (int part = 0; part < partCount; part++)
             {
+                int color = colorTable[part % colorTable.Length];
+
                 //- because it is faster to do both (fild and outline)
-                sliFile.addRasterObject(img_filled, img_polyline, part, m, RGB2int(255, 255, 0));
+                if (isPartEnabled(part)) sliFile.addRasterObject(img_filled, img_polyline, part, m, color);
             }
 
             //- show randered slice
@@ -164,6 +266,14 @@ namespace Demo
                 picOutput.Image = getBitmap(img_polyline);
             }
 
+
+
+            for (int part = 0; part < partCount; part++)
+            {
+                lstPartNames.Items[part] = getPartListName(part, layerIndex);
+            }
+
+            m_doingRender = false;
         }
 
         //----------------------------------------------//
@@ -328,6 +438,36 @@ namespace Demo
         private void picOutput_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lstPartNames_Validated(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void lstPartNames_SelectedValueChanged(object sender, EventArgs e)
+        {
+            showLayer();
+        }
+
+        private void chkFill_CheckedChanged(object sender, EventArgs e)
+        {
+            showLayer();
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void btnErrorCLS_Click(object sender, EventArgs e)
+        {
+            lstError.Items.Clear();
+        }
+
+        private void chkShowDebug_CheckedChanged(object sender, EventArgs e)
+        {
+            s_showDebug = chkShowDebug.Checked;
         }
 
 

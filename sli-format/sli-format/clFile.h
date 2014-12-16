@@ -107,6 +107,11 @@ class clFile
 		bool setOffset(int newOffset);
 
 
+		/// <summary>Check if File [Filename] exists</summary>
+		/// <param name="Filename">Filename to test.</param>
+		/// <returns>true on success</returns>
+		static bool fileExist(const char * Filename);
+
 		bool eof();
 	
 };

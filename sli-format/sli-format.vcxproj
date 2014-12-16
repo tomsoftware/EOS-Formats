@@ -33,7 +33,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -115,17 +115,20 @@
     <ClCompile Include="sli-format\clFile.cpp" />
     <ClCompile Include="sli-format\clJobFile.cpp" />
     <ClCompile Include="sli-format\clJobFileInterpreter.cpp" />
+    <ClCompile Include="sli-format\clJobSliceFile.cpp" />
     <ClCompile Include="sli-format\clSliceData.cpp" />
-    <ClCompile Include="sli-format\clsliFile.cpp" />
+    <ClCompile Include="sli-format\clSliFile.cpp" />
     <ClCompile Include="sli-format\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sli-format\abstractSliceFile.h" />
     <ClInclude Include="sli-format\clError.h" />
     <ClInclude Include="sli-format\clFile.h" />
     <ClInclude Include="sli-format\clJobFile.h" />
     <ClInclude Include="sli-format\clJobFileInterpreter.h" />
+    <ClInclude Include="sli-format\clJobSliceFile.h" />
     <ClInclude Include="sli-format\clSliceData.h" />
-    <ClInclude Include="sli-format\clsliFile.h" />
+    <ClInclude Include="sli-format\clSliFile.h" />
     <ClInclude Include="sli-format\main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

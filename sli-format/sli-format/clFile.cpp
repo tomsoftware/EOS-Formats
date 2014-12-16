@@ -44,6 +44,14 @@ bool clFile::openFile(const char * FileName)
 	return openFile(NULL, FileName);
 }
 
+
+//---------------------------------------------------//
+bool clFile::fileExist(const char * Filename)
+{
+	struct stat buffer;
+	return (stat(Filename, &buffer) == 0);
+}
+
 //---------------------------------------------------//
 bool clFile::openFile(const char * FilePath, const char * FileName)
 {
@@ -73,6 +81,7 @@ bool clFile::openFile(const char * FilePath, const char * FileName)
 	else
 	{
 		m_error.AddError("Unable to open file: %s", FileName);
+		return false;
 	}
 
 	return true;

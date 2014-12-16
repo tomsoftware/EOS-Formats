@@ -5,8 +5,9 @@
 #include "clError.h"
 #include "clFile.h"
 #include "clSliceData.h"
+#include "abstractSliceFile.h"
 
-class clSliFile
+class clSliFile : public abstractSliceFile
 {
 	public:
 		clSliFile();
@@ -19,10 +20,11 @@ class clSliFile
 
 		/// <summary>Read the slice data and add it to the sliceData class</summary>
 		/// <param name="sliceData">sliceData class</param>
-		/// <param name="LayerIndex">index of the layer</param>
 		/// <param name="PartIndex">index of the Part</param>
+		/// <param name="LayerIndex">index of the layer</param>
+		/// <param name="storeAsPartIndex">[optional] Index in [sliceData] to store the data in, use -1 for same as PartIndex</param>
 		/// <returns>true on success; false on not</returns>
-		bool readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex);
+		virtual bool readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex, int storeAsPartIndex = -1);
 
 		/// <summary>returns the Layer Count of the file</summary>
 		/// <param name="PartIndex">index of the Part</param>
@@ -32,6 +34,22 @@ class clSliFile
 		/// <param name="PartIndex">index of the Part</param>
 		/// <param name="layerIndex">index of the Layer</param>
 		float getLayerPos(int PartIndex, int layerIndex);
+
+		/// <summary>returns the number of parts in this file</summary>
+		int getPartCount();
+
+		/// <summary>returns the name of the part</summary>
+		/// <param name="PartIndex">index of the Part</param>
+		char * getPartName(int PartIndex);
+
+
+		/// <summary>returns a string with special propertys to use for this part</summary>
+		/// <param name="PartIndex">index of the Part</param>
+		char * getPartProperty(int PartIndex);
+
+
+		void reset();
+
 
 	private:
 		struct tyFileHead
@@ -50,7 +68,7 @@ class clSliFile
 			int int14; //- unknown
 			float scaleFactor; 
 
-			float Dimension_x0;
+			float Dimension_x0; //- Bounding Box
 			float Dimension_x1;
 			float Dimension_y0;
 			float Dimension_y1;
@@ -62,6 +80,7 @@ class clSliFile
 
 		clError m_error;
 
+		char m_partName[255];
 
 		clFile m_file;
 

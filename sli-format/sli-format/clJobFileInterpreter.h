@@ -6,7 +6,6 @@
 //- for atoi
 #include <cstdlib>
 
-
 class clJobFileInterpreter
 {
 	public:
@@ -30,13 +29,17 @@ class clJobFileInterpreter
 
 		//---------------------------------------------------//
 		char * getKeyName(int keyIndex);
-		int getFirstKeyChild(int keyIndex);
-		int getNextKeyChild(int keyIndex);
+		int getFirstChild(int keyIndex=clJobFile::ROOT_ELEMENT);
+		int getChild(int keyIndex, const char * KeyName);
+		int getNextChild(int keyIndex);
+		int getProperty(int id, const char * propertyName);
 		int getFirstProperty(int keyIndex);
 		int getNextProperty(int propertyIndex);
 		char * getPropertyName(int propertyIndex);
 		char * getPropertyValue(int propertyIndex);
+		float getPropertyValue(int propertyIndex, float defaultValue);
 		char * getPropertyComment(int propertyIndex);
+		int getChildCount(int id);
 
 	private:
 		clJobFile m_JobFile;

@@ -40,6 +40,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labLayerIndex = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.labLayerPos = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chkFill = new System.Windows.Forms.CheckBox();
             this.txt_m33 = new System.Windows.Forms.TextBox();
@@ -55,20 +58,24 @@
             this.sliceLayer = new System.Windows.Forms.TrackBar();
             this.txtSliFileName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.labLayerPos = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labLayerIndex = new System.Windows.Forms.Label();
+            this.lstPartNames = new System.Windows.Forms.CheckedListBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lstError = new System.Windows.Forms.ListBox();
+            this.btnErrorCLS = new System.Windows.Forms.Button();
+            this.chkShowDebug = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliceLayer)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -143,7 +150,7 @@
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(496, 20);
             this.txtFileName.TabIndex = 8;
-            this.txtFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\ScanV_Micro.Job";
+            this.txtFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\140627_PowerCheck\\ende.job";
             // 
             // label1
             // 
@@ -166,6 +173,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lstPartNames);
             this.tabPage2.Controls.Add(this.labLayerIndex);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.labLayerPos);
@@ -192,10 +200,37 @@
             this.tabPage2.Text = "show slice";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // labLayerIndex
+            // 
+            this.labLayerIndex.AutoSize = true;
+            this.labLayerIndex.Location = new System.Drawing.Point(680, 3);
+            this.labLayerIndex.Name = "labLayerIndex";
+            this.labLayerIndex.Size = new System.Drawing.Size(13, 13);
+            this.labLayerIndex.TabIndex = 24;
+            this.labLayerIndex.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(647, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(36, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "Layer:";
+            // 
+            // labLayerPos
+            // 
+            this.labLayerPos.AutoSize = true;
+            this.labLayerPos.Location = new System.Drawing.Point(741, 3);
+            this.labLayerPos.Name = "labLayerPos";
+            this.labLayerPos.Size = new System.Drawing.Size(23, 13);
+            this.labLayerPos.TabIndex = 22;
+            this.labLayerPos.Text = "mm";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(669, 49);
+            this.label2.Location = new System.Drawing.Point(561, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(107, 13);
             this.label2.TabIndex = 21;
@@ -204,18 +239,19 @@
             // chkFill
             // 
             this.chkFill.AutoSize = true;
-            this.chkFill.Location = new System.Drawing.Point(672, 154);
+            this.chkFill.Location = new System.Drawing.Point(718, 63);
             this.chkFill.Name = "chkFill";
             this.chkFill.Size = new System.Drawing.Size(59, 17);
             this.chkFill.TabIndex = 20;
             this.chkFill.Text = "fill slice";
             this.chkFill.UseVisualStyleBackColor = true;
+            this.chkFill.CheckedChanged += new System.EventHandler(this.chkFill_CheckedChanged);
             // 
             // txt_m33
             // 
             this.txt_m33.BackColor = System.Drawing.SystemColors.Control;
             this.txt_m33.Enabled = false;
-            this.txt_m33.Location = new System.Drawing.Point(759, 117);
+            this.txt_m33.Location = new System.Drawing.Point(651, 115);
             this.txt_m33.Name = "txt_m33";
             this.txt_m33.Size = new System.Drawing.Size(32, 20);
             this.txt_m33.TabIndex = 19;
@@ -225,7 +261,7 @@
             // 
             this.txt_m32.BackColor = System.Drawing.SystemColors.Control;
             this.txt_m32.Enabled = false;
-            this.txt_m32.Location = new System.Drawing.Point(721, 117);
+            this.txt_m32.Location = new System.Drawing.Point(613, 115);
             this.txt_m32.Name = "txt_m32";
             this.txt_m32.Size = new System.Drawing.Size(32, 20);
             this.txt_m32.TabIndex = 18;
@@ -236,7 +272,7 @@
             // 
             this.txt_m31.BackColor = System.Drawing.SystemColors.Control;
             this.txt_m31.Enabled = false;
-            this.txt_m31.Location = new System.Drawing.Point(683, 117);
+            this.txt_m31.Location = new System.Drawing.Point(575, 115);
             this.txt_m31.Name = "txt_m31";
             this.txt_m31.Size = new System.Drawing.Size(32, 20);
             this.txt_m31.TabIndex = 17;
@@ -245,7 +281,7 @@
             // 
             // txt_m23
             // 
-            this.txt_m23.Location = new System.Drawing.Point(759, 91);
+            this.txt_m23.Location = new System.Drawing.Point(651, 89);
             this.txt_m23.Name = "txt_m23";
             this.txt_m23.Size = new System.Drawing.Size(32, 20);
             this.txt_m23.TabIndex = 16;
@@ -253,7 +289,7 @@
             // 
             // txt_m22
             // 
-            this.txt_m22.Location = new System.Drawing.Point(721, 91);
+            this.txt_m22.Location = new System.Drawing.Point(613, 89);
             this.txt_m22.Name = "txt_m22";
             this.txt_m22.Size = new System.Drawing.Size(32, 20);
             this.txt_m22.TabIndex = 15;
@@ -261,7 +297,7 @@
             // 
             // txt_m21
             // 
-            this.txt_m21.Location = new System.Drawing.Point(683, 91);
+            this.txt_m21.Location = new System.Drawing.Point(575, 89);
             this.txt_m21.Name = "txt_m21";
             this.txt_m21.Size = new System.Drawing.Size(32, 20);
             this.txt_m21.TabIndex = 14;
@@ -269,7 +305,7 @@
             // 
             // txt_m13
             // 
-            this.txt_m13.Location = new System.Drawing.Point(759, 65);
+            this.txt_m13.Location = new System.Drawing.Point(651, 63);
             this.txt_m13.Name = "txt_m13";
             this.txt_m13.Size = new System.Drawing.Size(32, 20);
             this.txt_m13.TabIndex = 13;
@@ -277,7 +313,7 @@
             // 
             // txt_m12
             // 
-            this.txt_m12.Location = new System.Drawing.Point(721, 65);
+            this.txt_m12.Location = new System.Drawing.Point(613, 63);
             this.txt_m12.Name = "txt_m12";
             this.txt_m12.Size = new System.Drawing.Size(32, 20);
             this.txt_m12.TabIndex = 12;
@@ -285,7 +321,7 @@
             // 
             // txt_m11
             // 
-            this.txt_m11.Location = new System.Drawing.Point(683, 65);
+            this.txt_m11.Location = new System.Drawing.Point(575, 63);
             this.txt_m11.Name = "txt_m11";
             this.txt_m11.Size = new System.Drawing.Size(32, 20);
             this.txt_m11.TabIndex = 11;
@@ -295,7 +331,7 @@
             // 
             this.picOutput.Location = new System.Drawing.Point(6, 42);
             this.picOutput.Name = "picOutput";
-            this.picOutput.Size = new System.Drawing.Size(651, 286);
+            this.picOutput.Size = new System.Drawing.Size(548, 291);
             this.picOutput.TabIndex = 0;
             this.picOutput.TabStop = false;
             this.picOutput.Click += new System.EventHandler(this.picOutput_Click);
@@ -317,7 +353,7 @@
             this.txtSliFileName.Name = "txtSliFileName";
             this.txtSliFileName.Size = new System.Drawing.Size(464, 20);
             this.txtSliFileName.TabIndex = 9;
-            this.txtSliFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\V11_1997_SLM_skaliert.sli";
+            this.txtSliFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\Validierung_Schaufel_rev3.Job";
             // 
             // button1
             // 
@@ -329,32 +365,60 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // labLayerPos
+            // lstPartNames
             // 
-            this.labLayerPos.AutoSize = true;
-            this.labLayerPos.Location = new System.Drawing.Point(741, 3);
-            this.labLayerPos.Name = "labLayerPos";
-            this.labLayerPos.Size = new System.Drawing.Size(23, 13);
-            this.labLayerPos.TabIndex = 22;
-            this.labLayerPos.Text = "mm";
+            this.lstPartNames.CheckOnClick = true;
+            this.lstPartNames.FormattingEnabled = true;
+            this.lstPartNames.Location = new System.Drawing.Point(560, 149);
+            this.lstPartNames.Name = "lstPartNames";
+            this.lstPartNames.Size = new System.Drawing.Size(255, 184);
+            this.lstPartNames.TabIndex = 25;
+            this.lstPartNames.SelectedValueChanged += new System.EventHandler(this.lstPartNames_SelectedValueChanged);
+            this.lstPartNames.Validated += new System.EventHandler(this.lstPartNames_Validated);
             // 
-            // label3
+            // tabPage3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(647, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 13);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "Layer:";
+            this.tabPage3.Controls.Add(this.chkShowDebug);
+            this.tabPage3.Controls.Add(this.btnErrorCLS);
+            this.tabPage3.Controls.Add(this.lstError);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(821, 346);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Errors";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
-            // labLayerIndex
+            // lstError
             // 
-            this.labLayerIndex.AutoSize = true;
-            this.labLayerIndex.Location = new System.Drawing.Point(680, 3);
-            this.labLayerIndex.Name = "labLayerIndex";
-            this.labLayerIndex.Size = new System.Drawing.Size(13, 13);
-            this.labLayerIndex.TabIndex = 24;
-            this.labLayerIndex.Text = "0";
+            this.lstError.FormattingEnabled = true;
+            this.lstError.Location = new System.Drawing.Point(3, 3);
+            this.lstError.Name = "lstError";
+            this.lstError.Size = new System.Drawing.Size(815, 303);
+            this.lstError.TabIndex = 0;
+            // 
+            // btnErrorCLS
+            // 
+            this.btnErrorCLS.Location = new System.Drawing.Point(748, 312);
+            this.btnErrorCLS.Name = "btnErrorCLS";
+            this.btnErrorCLS.Size = new System.Drawing.Size(59, 25);
+            this.btnErrorCLS.TabIndex = 1;
+            this.btnErrorCLS.Text = "cls";
+            this.btnErrorCLS.UseVisualStyleBackColor = true;
+            this.btnErrorCLS.Click += new System.EventHandler(this.btnErrorCLS_Click);
+            // 
+            // chkShowDebug
+            // 
+            this.chkShowDebug.AutoSize = true;
+            this.chkShowDebug.Checked = true;
+            this.chkShowDebug.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkShowDebug.Location = new System.Drawing.Point(14, 317);
+            this.chkShowDebug.Name = "chkShowDebug";
+            this.chkShowDebug.Size = new System.Drawing.Size(86, 17);
+            this.chkShowDebug.TabIndex = 2;
+            this.chkShowDebug.Text = "show Debug";
+            this.chkShowDebug.UseVisualStyleBackColor = true;
+            this.chkShowDebug.CheckedChanged += new System.EventHandler(this.chkShowDebug_CheckedChanged);
             // 
             // Form1
             // 
@@ -371,6 +435,8 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picOutput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliceLayer)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -407,6 +473,11 @@
         private System.Windows.Forms.Label labLayerPos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labLayerIndex;
+        private System.Windows.Forms.CheckedListBox lstPartNames;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListBox lstError;
+        private System.Windows.Forms.CheckBox chkShowDebug;
+        private System.Windows.Forms.Button btnErrorCLS;
 
     }
 }

@@ -12,6 +12,8 @@ class clJobFile
 		clJobFile();
 		~clJobFile();
 
+		static const int ROOT_ELEMENT = 0;
+
 		/// <summary>Read and interpret job-data from File</summary>
 		/// <param name="FileName">Filename of File to read</param>
 		/// <returns>uncoded buffer on success; NULL on error</returns>
