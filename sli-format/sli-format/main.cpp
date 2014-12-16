@@ -142,6 +142,30 @@ int sf_getLayerCount(int sliI, int partIndex)
 
 
 //---------------------------------------------------//
+float sf_getMaxLayerPos(int sliI, int partIndex)
+{
+	if (sliI == NULL) return -1;
+	tyLibraryInterface * libInt = (tyLibraryInterface *) sliI;
+	if (libInt->magic != MAGIC) return -2;
+	if (libInt->sliFile == NULL) return -3;
+
+	return libInt->sliFile->getMaxLayerPos(partIndex);
+}
+
+
+//---------------------------------------------------//
+float sf_getLayerThickness(int sliI)
+{
+	if (sliI == NULL) return -1;
+	tyLibraryInterface * libInt = (tyLibraryInterface *) sliI;
+	if (libInt->magic != MAGIC) return -2;
+	if (libInt->sliFile == NULL) return -3;
+
+	return libInt->sliFile->getLayerThickness();
+}
+
+
+//---------------------------------------------------//
 float sf_getLayerPos(int sliI, int partIndex, int layerIndex)
 {
 	if (sliI == NULL) return -1;
@@ -151,6 +175,19 @@ float sf_getLayerPos(int sliI, int partIndex, int layerIndex)
 
 	return libInt->sliFile->getLayerPos(partIndex, layerIndex);
 }
+
+
+//---------------------------------------------------//
+int sf_getLayerIndexByPos(int sliI, int partIndex, float layerPos)
+{
+	if (sliI == NULL) return -1;
+	tyLibraryInterface * libInt = (tyLibraryInterface *) sliI;
+	if (libInt->magic != MAGIC) return -2;
+	if (libInt->sliFile == NULL) return -3;
+
+	return libInt->sliFile->getLayerIndexByPos(partIndex, layerPos);
+}
+
 
 //---------------------------------------------------//
 char * sf_getPartName(int sliI, int partIndex)

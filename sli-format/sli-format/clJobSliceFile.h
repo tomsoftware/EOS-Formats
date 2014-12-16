@@ -51,6 +51,20 @@ public:
 	/// <summary>returns the number of parts in this file</summary>
 	int getPartCount();
 
+
+	/// <summary>returns the top Layer position in [mm]</summary>
+	/// <param name="PartIndex">index of the Part</param>
+	float getMaxLayerPos(int PartIndex);
+
+	/// <summary>finds and returns the Layer-Index for a layer position (in [mm])</summary>
+	/// <param name="PartIndex">index of the Part</param>
+	/// <param name="LayerPos">position of the layer in [mm]</param>
+	int getLayerIndexByPos(int PartIndex, float LayerPos);
+
+
+	/// <summary>returns the LayerThickness in [mm]</summary>
+	float getLayerThickness();
+
 private:
 
 	struct tySliFile
@@ -64,7 +78,8 @@ private:
 
 	tySliFile * m_SliFiles;
 	int m_SliFilesCount;
-	
+	float m_LayerThickness;
+
 	clError m_error;
 
 	bool openPartFile(tySliFile * part, const char * jobFileName);

@@ -40,6 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lstPartNames = new System.Windows.Forms.CheckedListBox();
             this.labLayerIndex = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.labLayerPos = new System.Windows.Forms.Label();
@@ -58,11 +59,12 @@
             this.sliceLayer = new System.Windows.Forms.TrackBar();
             this.txtSliFileName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.lstPartNames = new System.Windows.Forms.CheckedListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.lstError = new System.Windows.Forms.ListBox();
-            this.btnErrorCLS = new System.Windows.Forms.Button();
             this.chkShowDebug = new System.Windows.Forms.CheckBox();
+            this.btnErrorCLS = new System.Windows.Forms.Button();
+            this.lstError = new System.Windows.Forms.ListBox();
+            this.lblLayerThickness = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -173,6 +175,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lblLayerThickness);
+            this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.lstPartNames);
             this.tabPage2.Controls.Add(this.labLayerIndex);
             this.tabPage2.Controls.Add(this.label3);
@@ -199,6 +203,17 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "show slice";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lstPartNames
+            // 
+            this.lstPartNames.CheckOnClick = true;
+            this.lstPartNames.FormattingEnabled = true;
+            this.lstPartNames.Location = new System.Drawing.Point(560, 149);
+            this.lstPartNames.Name = "lstPartNames";
+            this.lstPartNames.Size = new System.Drawing.Size(255, 184);
+            this.lstPartNames.TabIndex = 25;
+            this.lstPartNames.SelectedValueChanged += new System.EventHandler(this.lstPartNames_SelectedValueChanged);
+            this.lstPartNames.Validated += new System.EventHandler(this.lstPartNames_Validated);
             // 
             // labLayerIndex
             // 
@@ -365,17 +380,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lstPartNames
-            // 
-            this.lstPartNames.CheckOnClick = true;
-            this.lstPartNames.FormattingEnabled = true;
-            this.lstPartNames.Location = new System.Drawing.Point(560, 149);
-            this.lstPartNames.Name = "lstPartNames";
-            this.lstPartNames.Size = new System.Drawing.Size(255, 184);
-            this.lstPartNames.TabIndex = 25;
-            this.lstPartNames.SelectedValueChanged += new System.EventHandler(this.lstPartNames_SelectedValueChanged);
-            this.lstPartNames.Validated += new System.EventHandler(this.lstPartNames_Validated);
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.chkShowDebug);
@@ -389,24 +393,6 @@
             this.tabPage3.UseVisualStyleBackColor = true;
             this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
-            // lstError
-            // 
-            this.lstError.FormattingEnabled = true;
-            this.lstError.Location = new System.Drawing.Point(3, 3);
-            this.lstError.Name = "lstError";
-            this.lstError.Size = new System.Drawing.Size(815, 303);
-            this.lstError.TabIndex = 0;
-            // 
-            // btnErrorCLS
-            // 
-            this.btnErrorCLS.Location = new System.Drawing.Point(748, 312);
-            this.btnErrorCLS.Name = "btnErrorCLS";
-            this.btnErrorCLS.Size = new System.Drawing.Size(59, 25);
-            this.btnErrorCLS.TabIndex = 1;
-            this.btnErrorCLS.Text = "cls";
-            this.btnErrorCLS.UseVisualStyleBackColor = true;
-            this.btnErrorCLS.Click += new System.EventHandler(this.btnErrorCLS_Click);
-            // 
             // chkShowDebug
             // 
             this.chkShowDebug.AutoSize = true;
@@ -419,6 +405,42 @@
             this.chkShowDebug.Text = "show Debug";
             this.chkShowDebug.UseVisualStyleBackColor = true;
             this.chkShowDebug.CheckedChanged += new System.EventHandler(this.chkShowDebug_CheckedChanged);
+            // 
+            // btnErrorCLS
+            // 
+            this.btnErrorCLS.Location = new System.Drawing.Point(748, 312);
+            this.btnErrorCLS.Name = "btnErrorCLS";
+            this.btnErrorCLS.Size = new System.Drawing.Size(59, 25);
+            this.btnErrorCLS.TabIndex = 1;
+            this.btnErrorCLS.Text = "cls";
+            this.btnErrorCLS.UseVisualStyleBackColor = true;
+            this.btnErrorCLS.Click += new System.EventHandler(this.btnErrorCLS_Click);
+            // 
+            // lstError
+            // 
+            this.lstError.FormattingEnabled = true;
+            this.lstError.Location = new System.Drawing.Point(3, 3);
+            this.lstError.Name = "lstError";
+            this.lstError.Size = new System.Drawing.Size(815, 303);
+            this.lstError.TabIndex = 0;
+            // 
+            // lblLayerThickness
+            // 
+            this.lblLayerThickness.AutoSize = true;
+            this.lblLayerThickness.Location = new System.Drawing.Point(764, 122);
+            this.lblLayerThickness.Name = "lblLayerThickness";
+            this.lblLayerThickness.Size = new System.Drawing.Size(13, 13);
+            this.lblLayerThickness.TabIndex = 27;
+            this.lblLayerThickness.Text = "0";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(705, 109);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 13);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "Layer thickness:";
             // 
             // Form1
             // 
@@ -478,6 +500,8 @@
         private System.Windows.Forms.ListBox lstError;
         private System.Windows.Forms.CheckBox chkShowDebug;
         private System.Windows.Forms.Button btnErrorCLS;
+        private System.Windows.Forms.Label lblLayerThickness;
+        private System.Windows.Forms.Label label5;
 
     }
 }

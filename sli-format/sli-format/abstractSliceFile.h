@@ -39,9 +39,22 @@ public:
 	virtual char * getPartProperty(int PartIndex) = 0;
 	
 
+	/// <summary>finds and returns the Layer-Index for a layer position (in [mm])</summary>
+	/// <param name="PartIndex">index of the Part</param>
+	/// <param name="LayerPos">position of the layer in [mm]</param>
+	virtual int getLayerIndexByPos(int PartIndex, float LayerPos) = 0;
+
+	/// <summary>returns the top Layer position in [mm]</summary>
+	/// <param name="PartIndex">index of the Part</param>
+	virtual float getMaxLayerPos(int PartIndex) = 0;
 
 	/// <summary>returns the number of parts in this file</summary>
 	virtual int getPartCount() = 0;
+
+
+	/// <summary>returns the LayerThickness in [mm]</summary>
+	virtual float getLayerThickness() = 0;
+
 };
 
 

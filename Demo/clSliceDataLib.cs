@@ -63,11 +63,23 @@ namespace Demo
 
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern float sf_getLayerThickness(int sliI);
+
+
+        [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern Int32 sf_getLayerCount(int sliI, int partIndex);
 
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern float sf_getMaxLayerPos(int sliI, int partIndex);
+
+
+        [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern float sf_getLayerPos(int sliI, int partIndex, int layerIndex);
+
+
+        [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        private static extern int sf_getLayerIndexByPos(int sliI, int partIndex, float layerPos);
 
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -96,6 +108,7 @@ namespace Demo
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr sf_getLastError();
+
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr sf_getLastDebug();
@@ -173,10 +186,49 @@ namespace Demo
 
 
         //---------------------------------------------------//
-        public int getLayerCount()
+        public int getLayerCount(int partIndex=-1)
         {
-            return sf_getLayerCount(m_SLI_lib, 0);
+            if (partIndex>=0) return sf_getLayerCount(m_SLI_lib, partIndex);
+
+            //- find maximum of index
+            int max_index = 0;
+            int partCount = getPartCount();
+
+            for (int i = 0; i < partCount; i++ )
+            {
+                max_index = System.Math.Max(max_index, sf_getLayerCount(m_SLI_lib, i));
+            }
+            
+
+            return max_index;
         }
+
+
+        //---------------------------------------------------//
+        public float getLayerThickness()
+        {
+            return sf_getLayerThickness(m_SLI_lib);
+        }
+
+
+        //---------------------------------------------------//
+        public float getMaxLayerPos(int partIndex = -1)
+        {
+            if (partIndex >= 0) return sf_getMaxLayerPos(m_SLI_lib, partIndex);
+
+            //- find maximum layer position
+            float max_pos = 0;
+            int partCount = getPartCount();
+
+            for (int i = 0; i < partCount; i++)
+            {
+                max_pos = System.Math.Max(max_pos, sf_getMaxLayerPos(m_SLI_lib, i));
+            }
+
+
+            return max_pos;
+        }
+        
 
         //---------------------------------------------------//
         public float getLayerPos(int partIndex, int LayerIndex)
@@ -184,7 +236,15 @@ namespace Demo
             return sf_getLayerPos(m_SLI_lib, partIndex, LayerIndex);
         }
            
+
+        //---------------------------------------------------//
+        public int getLayerIndexByPos(int partIndex, float layerPos)
+        {
+            return sf_getLayerIndexByPos(m_SLI_lib, partIndex, layerPos);
+        }
+           
         
+
         //---------------------------------------------------//
         public string getPartName(int  partIndex)
         {

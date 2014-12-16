@@ -24,6 +24,20 @@ bool clJobSliceFile::readFromFile(const char * filename)
 
 	if (!job.readFromFile(filename)) return false;
 
+
+	int GeneralKey = job.getChild(clJobFile::ROOT_ELEMENT, "General");
+	if (GeneralKey > 0)
+	{
+		int prop_LayerThickness = job.getProperty(GeneralKey, "LayerThickness");
+		m_LayerThickness = job.getPropertyValue(prop_LayerThickness, 0.00f);
+	}
+	else
+	{
+		m_LayerThickness = 0.0f;
+		m_error.AddError("No [General] Element found in .job file : Layer-Thickness may wrong!");
+	}
+	
+
 	int PartsKey = job.getChild(clJobFile::ROOT_ELEMENT, "Parts");
 	if (PartsKey <= 0)
 	{
@@ -169,6 +183,18 @@ bool clJobSliceFile::openPartFile(tySliFile * part, const char * jobFileName)
 
 
 //------------------------------------------------------------//
+int clJobSliceFile::getLayerIndexByPos(int PartIndex, float LayerPos)
+{
+	if (m_SliFiles == NULL) return false;
+	if ((PartIndex < 0) && (PartIndex >= m_SliFilesCount)) return false;
+
+	tySliFile * part = &m_SliFiles[PartIndex];
+
+	return part->sliFile.getLayerIndexByPos(0, LayerPos);
+}
+
+
+//------------------------------------------------------------//
 bool clJobSliceFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex, int storeAsPartIndex)
 {
 	if (m_SliFiles == NULL) return false;
@@ -235,6 +261,25 @@ int clJobSliceFile::getLayerCount(int PartIndex)
 	tySliFile * part = &m_SliFiles[PartIndex];
 
 	return part->sliFile.getLayerCount(0);
+}
+
+
+//------------------------------------------------------------//
+float clJobSliceFile::getMaxLayerPos(int PartIndex)
+{
+	if (m_SliFiles == NULL) return 0;
+	if ((PartIndex < 0) && (PartIndex >= m_SliFilesCount)) return 0;
+
+	tySliFile * part = &m_SliFiles[PartIndex];
+
+	return part->sliFile.getMaxLayerPos(0);
+}
+
+
+//------------------------------------------------------------//
+float clJobSliceFile::getLayerThickness()
+{
+	return m_LayerThickness;
 }
 
 

@@ -1,5 +1,9 @@
 #include "clSliFile.h"
 
+//- Math macros -//
+#define ABS(a) (((a)>=0)?(a):(-(a)))
+#define MIN(a,b) (((a)<(b))?(a):(b))
+
 
 //---------------------------------------------------//
 clSliFile::clSliFile()
@@ -30,6 +34,10 @@ void clSliFile::reset()
 
 	m_IndexTable_lenght = 0;
 
+	m_currentLayerIndex = 0;
+
+	m_LayerThickness = 0.0f;
+
 	memset(&m_FileHead, 0, sizeof(m_FileHead));
 
 }
@@ -38,6 +46,8 @@ void clSliFile::reset()
 //---------------------------------------------------//
 bool clSliFile::readFromFile(const char * filename)
 {
+	
+	reset();
 
 	if (!m_file.openFile(filename))
 	{
@@ -99,16 +109,38 @@ bool clSliFile::readIndexTable(int FilePos, int FileOffset, int LayerCount)
 
 	m_IndexTable = new tyIndexTable[LayerCount];
 
+	float last_LayerPos = -1.0f;
+	m_LayerThickness = 999999;
+
 	while ((!m_file.eof()) && (m_IndexTable_lenght < LayerCount))
 	{
 		//- Start of a layer with upper surface at height z (z*units [mm]). All layers must be sorted in ascending order with respect to z. The thickness of the layer is given by the difference between the z values of the current and previous layers. A thickness for the first (lowest) layer can be specified by including a "zero-layer" with a given z value but with no polyline. 
-		m_IndexTable[m_IndexTable_lenght].layerPos = m_file.readIntBE(2) * m_FileHead.scaleFactor;
+		float this_LayerPos = m_file.readIntBE(2) * m_FileHead.scaleFactor;
+		m_IndexTable[m_IndexTable_lenght].layerPos = this_LayerPos;
 
 		m_IndexTable[m_IndexTable_lenght].FileOffset = m_file.readIntBE(4) + FileOffset;
 
 		//m_error.AddDebug("[%i]  %f @ %i", m_IndexTable_lenght, m_IndexTable[m_IndexTable_lenght].layerPos, m_IndexTable[m_IndexTable_lenght].FileOffset);
 
 		m_IndexTable_lenght++;
+
+
+		//- find LayerThickness 
+		if (last_LayerPos > 0)
+		{
+			float delta = (this_LayerPos - last_LayerPos);
+			if (delta > 0)
+			{
+				m_LayerThickness = MIN(m_LayerThickness, delta);
+			}
+			else
+			{
+				m_error.AddError("readIndexTable() : File layer position is not ordered or has a wrong value! This may cause an error if calling [ getLayerIndexByPos() ]");
+			}
+			
+		}
+		last_LayerPos = this_LayerPos;
+
 	}
 
 	m_error.AddDebug("Layer count: %i", m_IndexTable_lenght);
@@ -123,11 +155,28 @@ int clSliFile::getLayerCount(int PartIndex)
 	return m_FileHead.LayerCount;
 }
 
+//------------------------------------------------------------//
+float clSliFile::getMaxLayerPos(int PartIndex)
+{
+	if (PartIndex != 0) return 0;
+	if (m_FileHead.LayerCount < 1) return 0;
+
+	return m_IndexTable[m_FileHead.LayerCount-1].layerPos;
+}
+
+
 //---------------------------------------------------//
 int clSliFile::getPartCount()
 {
 	return 1;
 }
+
+//------------------------------------------------------------//
+float clSliFile::getLayerThickness()
+{
+	return m_LayerThickness;
+}
+
 
 //---------------------------------------------------//
 float clSliFile::getLayerPos(int PartIndex, int LayerIndex)
@@ -153,15 +202,81 @@ char * clSliFile::getPartProperty(int PartIndex)
 }
 
 
+//---------------------------------------------------//
+inline int clSliFile::checkLayerPos(int * minIndex, int * maxIndex, int index2Check, float LayerPos)
+{
+	if (index2Check < *minIndex) return -1;
+	if (index2Check > *maxIndex) return +1;
+
+
+	float delta = LayerPos - m_IndexTable[index2Check].layerPos;
+
+	if (delta > 0.0001f)
+	{
+		*minIndex = index2Check + 1;
+		return +1;
+	}
+	else if (delta < -0.0001f)
+	{
+		*maxIndex = index2Check - 1;
+		return -1;
+	}
+	else //- -0.0001f < delta < 0.0001f
+	{
+		return 0;
+	}
+	
+}
+
+//---------------------------------------------------//
+int clSliFile::getLayerIndexByPos(int PartIndex, float LayerPos)
+{
+	if (PartIndex != 0) return -1;
+
+	int minIndex = 0;
+	int maxIndex = m_FileHead.LayerCount-1;
+
+	if (LayerPos < m_IndexTable[minIndex].layerPos) return -1;
+	if (LayerPos > m_IndexTable[maxIndex].layerPos) return -1;
+
+	int chIndex = m_currentLayerIndex;
+
+	//- may the current didn't change?
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 0, LayerPos) == 0) { m_currentLayerIndex += 0;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 1, LayerPos) == 0) { m_currentLayerIndex += 1;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex - 1, LayerPos) == 0) { m_currentLayerIndex -= 1;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 5, LayerPos) == 0) { m_currentLayerIndex += 2;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex - 5, LayerPos) == 0) { m_currentLayerIndex -= 2;  return m_currentLayerIndex; }
+
+
+	//- Binary search of position/index
+	int pos = 0;
+
+	while (minIndex <= maxIndex)
+	{
+		pos = (maxIndex + minIndex) / 2;
+		
+		if (checkLayerPos(&minIndex, &maxIndex, pos, LayerPos) == 0)
+		{
+			m_currentLayerIndex = pos;
+			return pos;
+		}
+	}
+
+	//- not found.
+	return -1;
+}
+
 
 
 //---------------------------------------------------//
 bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerIndex, int storeAsPartIndex)
 {
+	if (PartIndex != 0) return false;
+
 	int n = 0;
 	float scaleFactor = m_FileHead.scaleFactor;
 
-	if (PartIndex != 0) return false;
 	if (storeAsPartIndex == -1) storeAsPartIndex = PartIndex;
 
 	//- clear old data or define new empty part
@@ -190,7 +305,7 @@ bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerI
 					float unknownLayerThickness1 = m_file.readFloat(); 
 					float unknownLayerThickness2 = m_file.readFloat();
 
-					//m_error.AddDebug("pos %i, float1 %f, float2 %f", unknownLayerPos, unknownLayerThickness1, unknownLayerThickness2);
+					m_error.AddDebug("pos %i, float1 %f, float2 %f", unknownLayerPos, unknownLayerThickness1, unknownLayerThickness2);
 				}
 
 				//- padding

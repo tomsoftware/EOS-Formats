@@ -48,8 +48,22 @@ class clSliFile : public abstractSliceFile
 		char * getPartProperty(int PartIndex);
 
 
-		void reset();
+		/// <summary>finds and returns the Layer-Index for a layer position (in [mm])</summary>
+		/// <param name="PartIndex">index of the Part</param>
+		/// <param name="LayerPos">position of the layer in [mm]</param>
+		int getLayerIndexByPos(int PartIndex, float LayerPos);
 
+
+		/// <summary>returns the top Layer position in [mm]</summary>
+		/// <param name="PartIndex">index of the Part</param>
+		float getMaxLayerPos(int PartIndex);
+
+
+		/// <summary>returns the LayerThickness in [mm]</summary>
+		float getLayerThickness();
+
+		/// <summary>reset</summary>
+		void reset();
 
 	private:
 		struct tyFileHead
@@ -92,9 +106,12 @@ class clSliFile : public abstractSliceFile
 
 		tyIndexTable * m_IndexTable;
 		int m_IndexTable_lenght;
-
+		int m_currentLayerIndex;
 
 		bool readIndexTable(int FilePos, int FileOffset, int LayerCount);
+		inline int checkLayerPos(int * minIndex, int * maxIndex, int index2Check, float LayerPos);
+
+		float m_LayerThickness;
 };
 
 

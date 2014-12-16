@@ -119,8 +119,9 @@ namespace Demo
             
             sliceLayer.Minimum = 0;
             sliceLayer.Value = 0;
-            sliceLayer.Maximum = sliFile.getLayerCount() - 1;
+            sliceLayer.Maximum = (int)Math.Floor(sliFile.getMaxLayerPos() / sliFile.getLayerThickness());
 
+            lblLayerThickness.Text = d2s(sliFile.getLayerThickness()) +" mm";
 
             System.Diagnostics.Debug.Print( sliFile.getLastError());
 
@@ -189,25 +190,33 @@ namespace Demo
         //----------------------------------------------//
         void showLayer(int layerIndex=-1)
         {
+            //- don't run this more then once the same time
             if (m_doingRender) return;
             m_doingRender = true;
 
-
             if (layerIndex == -1) layerIndex = sliceLayer.Value;
+
 
             //- get Position of the layer
             labLayerIndex.Text = i2s(layerIndex);
             labLayerPos.Text = d2s(sliFile.getLayerPos(0, layerIndex)) + " mm";
 
 
+            float layerPos = layerIndex * sliFile.getLayerThickness();
 
             //- get Part Count
             int partCount = sliFile.getPartCount();
 
             for (int part = 0; part < partCount; part++)
             {
-                //- read layer data (only do this if layer has changed)
-                if (isPartEnabled(part)) sliFile.readSliceData(layerIndex, part);
+                if (isPartEnabled(part))
+                {
+                    //- find layerIndex for this position
+                    int index = sliFile.getLayerIndexByPos(part, layerPos);
+
+                    //- read layer data (ToDo: only do this if layer-index for this part has changed)
+                    sliFile.readSliceData(index, part);
+                }
             }
 
 
@@ -270,7 +279,9 @@ namespace Demo
 
             for (int part = 0; part < partCount; part++)
             {
-                lstPartNames.Items[part] = getPartListName(part, layerIndex);
+                int index = sliFile.getLayerIndexByPos(part, layerPos);
+
+                lstPartNames.Items[part] = getPartListName(part, index);
             }
 
             m_doingRender = false;
