@@ -38,6 +38,9 @@ void clSliFile::reset()
 
 	m_LayerThickness = 0.0f;
 
+	m_partName[0] = '\0';
+		
+
 	memset(&m_FileHead, 0, sizeof(m_FileHead));
 
 }
@@ -66,6 +69,11 @@ bool clSliFile::readFromFile(const char * filename)
 		m_file.closeFile();
 		return false;
 	}
+
+	int posName = -1;
+	posName = max(posName, strIndexOfLast(filename, '\\', 1024));
+	posName = max(posName, strIndexOfLast(filename, '/', 1024));
+	strncpy(m_partName, &filename[posName + 1], sizeof(m_partName));
 
 	m_FileHead.version = m_file.readIntBE(2);
 	m_FileHead.int02 = m_file.readIntBE(2);
@@ -211,12 +219,12 @@ inline int clSliFile::checkLayerPos(int * minIndex, int * maxIndex, int index2Ch
 
 	float delta = LayerPos - m_IndexTable[index2Check].layerPos;
 
-	if (delta > 0.0001f)
+	if (delta > 0.001f)
 	{
 		*minIndex = index2Check + 1;
 		return +1;
 	}
-	else if (delta < -0.0001f)
+	else if (delta < -0.001f)
 	{
 		*maxIndex = index2Check - 1;
 		return -1;
@@ -305,7 +313,7 @@ bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerI
 					float unknownLayerThickness1 = m_file.readFloat(); 
 					float unknownLayerThickness2 = m_file.readFloat();
 
-					m_error.AddDebug("pos %i, float1 %f, float2 %f", unknownLayerPos, unknownLayerThickness1, unknownLayerThickness2);
+					//m_error.AddDebug("pos %i, float1 %f, float2 %f", unknownLayerPos, unknownLayerThickness1, unknownLayerThickness2);
 				}
 
 				//- padding
@@ -417,4 +425,23 @@ bool clSliFile::readSliceData(clSliceData * sliceData, int PartIndex, int LayerI
 	}
 
 	return true;
+}
+
+
+//------------------------------------------------------------//
+int clSliFile::strIndexOfLast(const char * src, char findChar, int maxScanCount)
+{
+	if (src == NULL) return -1;
+
+	const char * srcP = src;
+
+	int pos = -1;
+
+	for (int i = 0; i<maxScanCount; i++)
+	{
+		char s = *srcP++;
+		if (s == 0) return pos;
+		if (s == findChar) pos = i;
+	}
+	return pos;
 }

@@ -1,7 +1,9 @@
 #include "clFile.h"
 
 
-clFile::clFile(const char * FilePath, const char * FileName)
+clFile::clFile(const char * FilePath, const char * FileName):
+  m_error("clFile"),
+  m_eof(false)
 {
 	m_buffer = NULL;
 	m_filesize = 0;

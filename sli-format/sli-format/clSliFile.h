@@ -112,6 +112,7 @@ class clSliFile : public abstractSliceFile
 		inline int checkLayerPos(int * minIndex, int * maxIndex, int index2Check, float LayerPos);
 
 		float m_LayerThickness;
+		int strIndexOfLast(const char * src, char findChar, int maxScanCount);
 };
 
 

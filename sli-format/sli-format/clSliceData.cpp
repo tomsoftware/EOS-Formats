@@ -273,8 +273,9 @@ bool clSliceData::clearParts(int AllocatePartCount)
 	for (int i = 0; i < m_partLenght; i++)
 	{
 		m_parts[i].objectCount = 0;
-		m_parts[i].transformMatrix = { 0, 0, 0, 0, 0, 0 };
-		
+		memset(&m_parts[i].transformMatrix, 0, sizeof(m_parts[i].transformMatrix));
+
+
 		for (int j = 0; j < m_parts[i].objectLenght; j++)
 		{
 			m_parts[i].objects[j].pointCount = 0;
@@ -310,7 +311,7 @@ bool clSliceData::createPart(int partIndex, float m11, float m12, float  m13, fl
 			newObj[i].objectCount = 0;
 			newObj[i].objectLenght = 0;
 			newObj[i].objects = NULL;
-			newObj[i].transformMatrix = { 0, 0, 0, 0, 0, 0 };
+			memset(&newObj[i].transformMatrix, 0, sizeof(newObj[i].transformMatrix));
 		}
 
 		if (m_parts != NULL) delete [] m_parts;
@@ -320,7 +321,13 @@ bool clSliceData::createPart(int partIndex, float m11, float m12, float  m13, fl
 	}
 
 	m_parts[partIndex].objectCount = 0;
-	m_parts[partIndex].transformMatrix = { m11, m12, m13, m21, m22, m23 };
+	m_parts[partIndex].transformMatrix.m11 = m11;
+	m_parts[partIndex].transformMatrix.m12 = m12;
+	m_parts[partIndex].transformMatrix.m13 = m13;
+	m_parts[partIndex].transformMatrix.m21 = m21;
+	m_parts[partIndex].transformMatrix.m22 = m22;
+	m_parts[partIndex].transformMatrix.m23 = m23;
+
 
 	m_partCount = MAX(m_partCount, partIndex + 1);
 
@@ -430,14 +437,14 @@ int clSliceData::drawLine(int * DataDest, int width, int height, int x1, int y1,
 			SWAP(y1, y2);
 		}
 
-		float d = (double) (y2 - y1) / (x2 - x1); //- Slope
+		double d = (double) (y2 - y1) / (x2 - x1); //- Slope
 
 		int tmpX = x1;
-		float currentY = y1;
+		double currentY = (double) y1;
 
 		for (int i = abs_w; i >= 0 ; i--)
 		{
-			int index = ROUND(currentY) * width + tmpX;
+			int index = ((int)ROUND(currentY)) * width + tmpX;
 
 			if ((index >= 0) && (index < pixelCount))
 			{			
@@ -460,14 +467,14 @@ int clSliceData::drawLine(int * DataDest, int width, int height, int x1, int y1,
 			SWAP(y1, y2);
 		}
 
-		float d = (double) (x2 - x1) / (y2 - y1); //- Slope
+		double d = (double) (x2 - x1) / (y2 - y1); //- Slope
 
-		float currentX = x1;
+		double currentX = x1;
 		int tmpY = y1 * width;
 
 		for (int i = abs_h; i >= 0; i--)
 		{
-			int tmpX = ROUND(currentX);
+			int tmpX = (int)ROUND(currentX);
 			int index = tmpY + tmpX;
 
 			if ((index >= 0) && (index < pixelCount))

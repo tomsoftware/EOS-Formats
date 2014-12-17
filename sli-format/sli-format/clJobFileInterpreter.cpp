@@ -605,7 +605,7 @@ float clJobFileInterpreter::getPropertyValue(int id, float defaultValue)
 
 	char * e;
 	errno = 0;
-	float x = std::strtof(val, &e);
+	float x = (float)std::strtod(val, &e);
 
 	if (*e != '\0' ||  // error, we didn't consume the entire string
 		errno != 0)   // error, overflow or underflow

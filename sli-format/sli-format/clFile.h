@@ -29,10 +29,10 @@ class clFile
 		int m_fileReadPos;
 
 
-		bool m_eof = false;
+		bool m_eof;
 
 
-		clError m_error = clError("clFile");
+		clError m_error;
 		unsigned int m_filesize;
 
 		std::ifstream m_File;

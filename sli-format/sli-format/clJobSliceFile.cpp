@@ -71,7 +71,7 @@ bool clJobSliceFile::readFromFile(const char * filename)
 
 			//- reset all
 			part->exposureProfile[0] = '\0';
-			part->matrix = { 0, 0, 0, 0, 0, 0 };
+			memset(&part->matrix, 0, sizeof(part->matrix));
 			strCopy(part->fileName, job.getPropertyValue(prop_FileName), sizeof(part->fileName));
 			part->sliFile.reset();
 
@@ -88,7 +88,7 @@ bool clJobSliceFile::readFromFile(const char * filename)
 				float a = (float) (job.getPropertyValue(prop_rotation, 0.f) * 2 * PI / 360.0);
 
 
-				part->matrix.m11 = cos(a);;
+				part->matrix.m11 = cos(a);
 				part->matrix.m12 = -sin(a);
 				part->matrix.m13 = job.getPropertyValue(prop_x, 0.f);
 				part->matrix.m21 = sin(a);;
@@ -179,6 +179,7 @@ bool clJobSliceFile::openPartFile(tySliFile * part, const char * jobFileName)
 	}
 
 	m_error.AddError("File [%s] not found.", part->fileName);
+	return false;
 }
 
 
