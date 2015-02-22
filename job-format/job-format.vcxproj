@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="export_lib_job.h" />
     <ClInclude Include="job-format\clError.h" />
     <ClInclude Include="job-format\clJobFile.h" />
     <ClInclude Include="job-format\clJobFileInterpreter.h" />
     <ClInclude Include="job-format\main.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="export_lib_job.cpp" />
     <ClCompile Include="job-format\clError.cpp" />
     <ClCompile Include="job-format\clJobFile.cpp" />
     <ClCompile Include="job-format\clJobFileInterpreter.cpp" />

@@ -40,6 +40,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.lblLayerThickness = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.lstPartNames = new System.Windows.Forms.CheckedListBox();
             this.labLayerIndex = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,8 +66,7 @@
             this.chkShowDebug = new System.Windows.Forms.CheckBox();
             this.btnErrorCLS = new System.Windows.Forms.Button();
             this.lstError = new System.Windows.Forms.ListBox();
-            this.lblLayerThickness = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -159,9 +161,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 13);
+            this.label1.Size = new System.Drawing.Size(132, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Filename (*.job, *ctr, *.conf)";
+            this.label1.Text = "Filename (*.job, *.cft, *.hpr)";
             // 
             // btnOpen
             // 
@@ -175,6 +177,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.lblLayerThickness);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.lstPartNames);
@@ -203,6 +207,34 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "show slice";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(447, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(33, 28);
+            this.button2.TabIndex = 28;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // lblLayerThickness
+            // 
+            this.lblLayerThickness.AutoSize = true;
+            this.lblLayerThickness.Location = new System.Drawing.Point(764, 122);
+            this.lblLayerThickness.Name = "lblLayerThickness";
+            this.lblLayerThickness.Size = new System.Drawing.Size(13, 13);
+            this.lblLayerThickness.TabIndex = 27;
+            this.lblLayerThickness.Text = "0";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(705, 109);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 13);
+            this.label5.TabIndex = 26;
+            this.label5.Text = "Layer thickness:";
             // 
             // lstPartNames
             // 
@@ -355,7 +387,7 @@
             // 
             // sliceLayer
             // 
-            this.sliceLayer.Location = new System.Drawing.Point(560, 15);
+            this.sliceLayer.Location = new System.Drawing.Point(575, 15);
             this.sliceLayer.Name = "sliceLayer";
             this.sliceLayer.Size = new System.Drawing.Size(217, 42);
             this.sliceLayer.TabIndex = 10;
@@ -364,15 +396,15 @@
             // 
             // txtSliFileName
             // 
-            this.txtSliFileName.Location = new System.Drawing.Point(6, 12);
+            this.txtSliFileName.Location = new System.Drawing.Point(16, 16);
             this.txtSliFileName.Name = "txtSliFileName";
-            this.txtSliFileName.Size = new System.Drawing.Size(464, 20);
+            this.txtSliFileName.Size = new System.Drawing.Size(425, 20);
             this.txtSliFileName.TabIndex = 9;
             this.txtSliFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\Validierung_Schaufel_rev3.Job";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(476, 6);
+            this.button1.Location = new System.Drawing.Point(486, 6);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(78, 30);
             this.button1.TabIndex = 1;
@@ -391,7 +423,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Errors";
             this.tabPage3.UseVisualStyleBackColor = true;
-            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // chkShowDebug
             // 
@@ -424,23 +455,14 @@
             this.lstError.Size = new System.Drawing.Size(815, 303);
             this.lstError.TabIndex = 0;
             // 
-            // lblLayerThickness
+            // label4
             // 
-            this.lblLayerThickness.AutoSize = true;
-            this.lblLayerThickness.Location = new System.Drawing.Point(764, 122);
-            this.lblLayerThickness.Name = "lblLayerThickness";
-            this.lblLayerThickness.Size = new System.Drawing.Size(13, 13);
-            this.lblLayerThickness.TabIndex = 27;
-            this.lblLayerThickness.Text = "0";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(705, 109);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 13);
-            this.label5.TabIndex = 26;
-            this.label5.Text = "Layer thickness:";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "Filename (*.job, *.sli)";
             // 
             // Form1
             // 
@@ -502,6 +524,8 @@
         private System.Windows.Forms.Button btnErrorCLS;
         private System.Windows.Forms.Label lblLayerThickness;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label4;
 
     }
 }

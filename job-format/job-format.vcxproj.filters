@@ -27,6 +27,9 @@
     <ClInclude Include="job-format\clJobFileInterpreter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="export_lib_job.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="job-format\clError.cpp">
@@ -39,6 +42,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="job-format\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="export_lib_job.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

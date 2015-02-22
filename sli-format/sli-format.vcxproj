@@ -118,6 +118,8 @@
     <ClCompile Include="sli-format\clJobSliceFile.cpp" />
     <ClCompile Include="sli-format\clSliceData.cpp" />
     <ClCompile Include="sli-format\clSliFile.cpp" />
+    <ClCompile Include="sli-format\export_lib_job.cpp" />
+    <ClCompile Include="sli-format\export_lib_sli.cpp" />
     <ClCompile Include="sli-format\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +131,8 @@
     <ClInclude Include="sli-format\clJobSliceFile.h" />
     <ClInclude Include="sli-format\clSliceData.h" />
     <ClInclude Include="sli-format\clSliFile.h" />
+    <ClInclude Include="sli-format\export_lib_job.h" />
+    <ClInclude Include="sli-format\export_lib_sli.h" />
     <ClInclude Include="sli-format\main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

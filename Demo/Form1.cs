@@ -21,6 +21,7 @@ namespace Demo
         private int picOutput_Start_Y=0;
         private int[] colorTable;
         private static System.Windows.Forms.ListBox s_lstError;
+        private static System.Windows.Forms.TabControl s_tabControl1;
         private static bool s_showDebug = false;
 
         //---------------------------------------------------//
@@ -47,6 +48,7 @@ namespace Demo
 
 
             s_lstError = lstError;
+            s_tabControl1 = tabControl1;
             s_showDebug = chkShowDebug.Checked;
         }
 
@@ -58,8 +60,10 @@ namespace Demo
 
             opendlg.FileName = System.IO.Path.GetFileNameWithoutExtension(txtFileName.Text);
             opendlg.AddExtension = true;
-            opendlg.Filter = "EOS Job File (*.job)|*.job|" +
-                             "Config Job File (*.cft)|*.cft|" + 
+            opendlg.Filter = "All EOS File (*.job;*.cft;*.hpr|*.job;*.cft;*.hpr" +
+                             "EOS Job File (*.job)|*.job|" +
+                             "Config Job File (*.cft)|*.cft|" +
+                             "Exposure Config (*.hpr)|*.hpr|" + 
                              "All Filetypes (*.*)|*.*";
 
             if (opendlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -135,6 +139,8 @@ namespace Demo
         static public void addError(string ErrorString, bool isDebug)
         {
             bool doShow = true;
+            bool foundError = false;
+
             if ((!s_showDebug) && (isDebug)) doShow = false;
 
             string [] split = ErrorString.Split(new Char [] {'\n', '\r'});
@@ -145,8 +151,11 @@ namespace Demo
                 {
                     if (doShow) s_lstError.Items.Add(s);
                     Console.WriteLine(s);
+                    foundError = true;
                 }
             }
+
+            if (foundError && !isDebug) s_tabControl1.SelectedIndex = 2;
         }
         
 
@@ -199,7 +208,7 @@ namespace Demo
 
             //- get Position of the layer
             labLayerIndex.Text = i2s(layerIndex);
-            labLayerPos.Text = d2s(sliFile.getLayerPos(0, layerIndex)) + " mm";
+            labLayerPos.Text = d2s(layerIndex * sliFile.getLayerThickness()) + " mm";
 
 
             float layerPos = layerIndex * sliFile.getLayerThickness();
@@ -338,15 +347,6 @@ namespace Demo
             showLayer();
         }
 
-        private void btnSelectFile_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void treeKeys_AfterSelect_1(object sender, TreeViewEventArgs e)
-        {
-
-        }
 
         //----------------------------------------------//
         private void btnOpen_Click(object sender, EventArgs e)
@@ -446,39 +446,62 @@ namespace Demo
             }
         }
 
+
+        //----------------------------------------------//
         private void picOutput_Click(object sender, EventArgs e)
         {
 
         }
 
+
+        //----------------------------------------------//
         private void lstPartNames_Validated(object sender, EventArgs e)
         {
             
         }
 
+
+        //----------------------------------------------//
         private void lstPartNames_SelectedValueChanged(object sender, EventArgs e)
         {
             showLayer();
         }
 
+        //----------------------------------------------//
         private void chkFill_CheckedChanged(object sender, EventArgs e)
         {
             showLayer();
         }
 
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
-        
-        }
-
+        //----------------------------------------------//
         private void btnErrorCLS_Click(object sender, EventArgs e)
         {
             lstError.Items.Clear();
         }
 
+        //----------------------------------------------//
         private void chkShowDebug_CheckedChanged(object sender, EventArgs e)
         {
             s_showDebug = chkShowDebug.Checked;
+        }
+
+        //----------------------------------------------//
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog opendlg = new System.Windows.Forms.OpenFileDialog();
+
+
+            opendlg.FileName = System.IO.Path.GetFileNameWithoutExtension(txtFileName.Text);
+            opendlg.AddExtension = true;
+            opendlg.Filter = "EOS Job File (*.job;*.sli)|*.job;*.sli|" +
+                             "EOS Job File (*.job)|*.job|" +
+                             "EOS Slice File (*.sli)|*.sli|" +
+                             "All Filetypes (*.*)|*.*";
+
+            if (opendlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtSliFileName.Text = opendlg.FileName;
+            }
         }
 
 

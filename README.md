@@ -11,7 +11,7 @@ job-format
 
 sli-format
 ----------
-* read .sli (Proprietary form of the "COMMON LAYER INTERFACE" format)
+* read .sli "Slice Layer Interface" (Proprietary form of the "Common Layer Interface" format)
 * C++ Library (visual Studio 2013)
 
 Demo

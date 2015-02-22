@@ -479,14 +479,14 @@ char * clJobFileInterpreter::Trim(char * buffer)
 //---------------------------------------------------//
 char * clJobFileInterpreter::getKeyName(int id)
 {
-	if ((id < 0) && (id >= m_keys_count)) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return NULL;
 	return m_keys[id].name;
 }
 
 //---------------------------------------------------//
 int clJobFileInterpreter::getFirstKeyChild(int id)
 {
-	if ((id < 0) && (id >= m_keys_count)) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return NULL;
 	if (m_keys[id].first_client == NULL) return NULL;
 
 	return m_keys[id].first_client->index;
@@ -495,7 +495,7 @@ int clJobFileInterpreter::getFirstKeyChild(int id)
 //---------------------------------------------------//
 int clJobFileInterpreter::getNextKeyChild(int id)
 {
-	if ((id < 0) && (id >= m_keys_count)) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return NULL;
 	if (m_keys[id].next_item == NULL) return NULL;
 
 	return m_keys[id].next_item->index;
@@ -504,7 +504,7 @@ int clJobFileInterpreter::getNextKeyChild(int id)
 //---------------------------------------------------//
 int clJobFileInterpreter::getFirstProperty(int id)
 {
-	if ((id < 0) && (id >= m_keys_count)) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return NULL;
 	if (m_keys[id].first_property == NULL) return NULL;
 
 	return m_keys[id].first_property->index;
@@ -513,7 +513,7 @@ int clJobFileInterpreter::getFirstProperty(int id)
 //---------------------------------------------------//
 int clJobFileInterpreter::getNextProperty(int id)
 {
-	if ((id < 0) && (id >= m_values_count)) return NULL;
+	if ((id < 0) || (id >= m_values_count)) return NULL;
 	if (m_values[id].next_property == NULL) return NULL;
 
 	return m_values[id].next_property->index;
@@ -522,20 +522,20 @@ int clJobFileInterpreter::getNextProperty(int id)
 //---------------------------------------------------//
 char * clJobFileInterpreter::getPropertyName(int id)
 {
-	if ((id < 0) && (id >= m_values_count)) return NULL;
+	if ((id < 0) || (id >= m_values_count)) return NULL;
 	return m_values[id].name;
 }
 
 //---------------------------------------------------//
 char * clJobFileInterpreter::getPropertyValue(int id)
 {
-	if ((id < 0) && (id >= m_values_count)) return NULL;
+	if ((id < 0) || (id >= m_values_count)) return NULL;
 	return m_values[id].value;
 }
 
 //---------------------------------------------------//
 char * clJobFileInterpreter::getPropertyComment(int id)
 {
-	if ((id < 0) && (id >= m_values_count)) return NULL;
+	if ((id < 0) || (id >= m_values_count)) return NULL;
 	return m_values[id].comment;
 }
