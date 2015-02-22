@@ -36,70 +36,70 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sli-format\main.cpp">
+    <ClCompile Include="source\export_lib_job.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="sli-format\clError.cpp">
+    <ClCompile Include="source\export_lib_sli.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\clError.cpp">
       <Filter>Quelldateien\helper</Filter>
     </ClCompile>
-    <ClCompile Include="sli-format\clFile.cpp">
+    <ClCompile Include="source\clFile.cpp">
       <Filter>Quelldateien\helper</Filter>
     </ClCompile>
-    <ClCompile Include="sli-format\clJobFileInterpreter.cpp">
+    <ClCompile Include="source\clJobFile.cpp">
       <Filter>Quelldateien\jobSlice</Filter>
     </ClCompile>
-    <ClCompile Include="sli-format\clJobSliceFile.cpp">
-      <Filter>Quelldateien\jobSlice</Filter>
-    </ClCompile>
-    <ClCompile Include="sli-format\clSliFile.cpp">
+    <ClCompile Include="source\clSliFile.cpp">
       <Filter>Quelldateien\sliSlice</Filter>
     </ClCompile>
-    <ClCompile Include="sli-format\clJobFile.cpp">
+    <ClCompile Include="source\clSliceData.cpp">
+      <Filter>Quelldateien\sliSlice</Filter>
+    </ClCompile>
+    <ClCompile Include="source\clJobSliceFile.cpp">
+      <Filter>Quelldateien\sliSlice</Filter>
+    </ClCompile>
+    <ClCompile Include="source\clJobFileInterpreter.cpp">
       <Filter>Quelldateien\jobSlice</Filter>
-    </ClCompile>
-    <ClCompile Include="sli-format\clSliceData.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="sli-format\export_lib_job.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="sli-format\export_lib_sli.cpp">
-      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sli-format\main.h">
+    <ClInclude Include="source\export_lib_job.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clSliceData.h">
+    <ClInclude Include="source\export_lib_sli.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\abstractSliceFile.h">
+    <ClInclude Include="source\main.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clError.h">
+    <ClInclude Include="source\clError.h">
       <Filter>Headerdateien\helper</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clFile.h">
+    <ClInclude Include="source\clFile.h">
       <Filter>Headerdateien\helper</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clJobFile.h">
+    <ClInclude Include="source\clJobFileInterpreter.h">
       <Filter>Headerdateien\jobSlice</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clJobFileInterpreter.h">
+    <ClInclude Include="source\clJobFile.h">
       <Filter>Headerdateien\jobSlice</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\clJobSliceFile.h">
-      <Filter>Headerdateien\jobSlice</Filter>
-    </ClInclude>
-    <ClInclude Include="sli-format\clSliFile.h">
+    <ClInclude Include="source\abstractSliceFile.h">
       <Filter>Headerdateien\sliSlice</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\export_lib_job.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="source\clJobSliceFile.h">
+      <Filter>Headerdateien\sliSlice</Filter>
     </ClInclude>
-    <ClInclude Include="sli-format\export_lib_sli.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="source\clSliceData.h">
+      <Filter>Headerdateien\sliSlice</Filter>
+    </ClInclude>
+    <ClInclude Include="source\clSliFile.h">
+      <Filter>Headerdateien\sliSlice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

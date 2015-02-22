@@ -7,7 +7,7 @@ namespace Demo
     public class clSliceDataLib
     {
 
-        private const string LIB_DLL_NAME = "sli-format.dll";
+        private const string LIB_DLL_NAME = "eos-format.dll";
 
 
         /// <summary>

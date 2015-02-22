@@ -6,7 +6,7 @@ namespace Demo
 
     class clJobFileLib
     {
-        private const string LIB_DLL_NAME = "job-format.dll";
+        private const string LIB_DLL_NAME = "eos-format.dll";
 
         [DllImport(LIB_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern Int32 jf_initLib();

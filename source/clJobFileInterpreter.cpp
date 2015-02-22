@@ -484,37 +484,100 @@ char * clJobFileInterpreter::getKeyName(int id)
 }
 
 //---------------------------------------------------//
-int clJobFileInterpreter::getFirstKeyChild(int id)
+int clJobFileInterpreter::getFirstChild(int id)
 {
-	if ((id < 0) || (id >= m_keys_count)) return NULL;
-	if (m_keys[id].first_client == NULL) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return -1;
+	if (m_keys[id].first_client == NULL) return -1;
 
 	return m_keys[id].first_client->index;
 }
 
 //---------------------------------------------------//
-int clJobFileInterpreter::getNextKeyChild(int id)
+int clJobFileInterpreter::getNextChild(int id)
 {
-	if ((id < 0) || (id >= m_keys_count)) return NULL;
-	if (m_keys[id].next_item == NULL) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return -1;
+	if (m_keys[id].next_item == NULL) return -1;
 
 	return m_keys[id].next_item->index;
 }
 
 //---------------------------------------------------//
+int clJobFileInterpreter::getChild(int id, const char * keyName)
+{
+	if ((id < 0) || (id >= m_keys_count)) return -1;
+	if (m_keys[id].first_client == NULL) return -1;
+
+
+	int key = m_keys[id].first_client->index;
+
+	while (key > 0)
+	{
+		if (_strcmpi(keyName, m_keys[key].name) == 0) return key;
+
+		if (m_keys[key].next_item <= 0) return -1;
+		key = m_keys[key].next_item->index;
+	}
+
+	return -1;
+}
+
+
+//---------------------------------------------------//
+int clJobFileInterpreter::getChildCount(int id)
+{
+	if ((id < 0) || (id >= m_keys_count)) return 0;
+	if (m_keys[id].first_client == NULL) return 0;
+
+	int count = 0;
+
+	int key = m_keys[id].first_client->index;
+
+	while (key > 0)
+	{
+		count++;
+		if (m_keys[key].next_item <= 0) return count;
+		key = m_keys[key].next_item->index;
+	}
+
+	return count;
+}
+
+//---------------------------------------------------//
+int clJobFileInterpreter::getProperty(int id, const char * propertyName)
+{
+	if ((id < 0) || (id >= m_keys_count)) return -1;
+	if (m_keys[id].first_property == NULL) return -1;
+
+	int prop = m_keys[id].first_property->index;
+
+	while (prop > 0)
+	{
+		if (_strcmpi(propertyName, m_values[prop].name) == 0) return prop;
+		
+		if (m_values[prop].next_property == NULL) return -1;
+		prop = m_values[prop].next_property->index;
+	}
+
+
+	return -1;
+}
+
+
+//---------------------------------------------------//
 int clJobFileInterpreter::getFirstProperty(int id)
 {
-	if ((id < 0) || (id >= m_keys_count)) return NULL;
-	if (m_keys[id].first_property == NULL) return NULL;
+	if ((id < 0) || (id >= m_keys_count)) return -1;
+	if (m_keys[id].first_property == NULL) return -1;
 
 	return m_keys[id].first_property->index;
 }
 
+
 //---------------------------------------------------//
 int clJobFileInterpreter::getNextProperty(int id)
 {
-	if ((id < 0) || (id >= m_values_count)) return NULL;
-	if (m_values[id].next_property == NULL) return NULL;
+	if ((id < 0) || (id >= m_values_count)) return -1;
+	if (m_values[id].next_property == NULL) return -1;
 
 	return m_values[id].next_property->index;
 }
@@ -532,6 +595,28 @@ char * clJobFileInterpreter::getPropertyValue(int id)
 	if ((id < 0) || (id >= m_values_count)) return NULL;
 	return m_values[id].value;
 }
+
+//---------------------------------------------------//
+float clJobFileInterpreter::getPropertyValue(int id, float defaultValue)
+{
+	char * val = getPropertyValue(id);
+	if (val == NULL) return defaultValue;
+
+
+	char * e;
+	errno = 0;
+	float x = (float)std::strtod(val, &e);
+
+	if (*e != '\0' ||  // error, we didn't consume the entire string
+		errno != 0)   // error, overflow or underflow
+	{
+		return defaultValue;
+	}
+
+
+	return x;
+}
+
 
 //---------------------------------------------------//
 char * clJobFileInterpreter::getPropertyComment(int id)

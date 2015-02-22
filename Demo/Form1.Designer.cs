@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lstProperty = new System.Windows.Forms.ListView();
@@ -40,6 +41,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.lblLayerThickness = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -62,23 +64,62 @@
             this.sliceLayer = new System.Windows.Forms.TrackBar();
             this.txtSliFileName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labServerTime = new System.Windows.Forms.Label();
+            this.labLayerNr = new System.Windows.Forms.Label();
+            this.labStatusText = new System.Windows.Forms.Label();
+            this.labLayerzDelta = new System.Windows.Forms.Label();
+            this.labLayer = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.listMachines = new System.Windows.Forms.ComboBox();
+            this.txtPsw = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtUser = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtHost = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chkShowDebug = new System.Windows.Forms.CheckBox();
             this.btnErrorCLS = new System.Windows.Forms.Button();
             this.lstError = new System.Windows.Forms.ListBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.timer_refreshState = new System.Windows.Forms.Timer(this.components);
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.lstJobs = new System.Windows.Forms.ListView();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.lstLayers = new System.Windows.Forms.ListView();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.lstJobInfo = new System.Windows.Forms.ListView();
+            this.lstEvents = new System.Windows.Forms.ListView();
+            this.lstParts = new System.Windows.Forms.ListView();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picOutput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliceLayer)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -154,7 +195,7 @@
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(496, 20);
             this.txtFileName.TabIndex = 8;
-            this.txtFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\140627_PowerCheck\\ende.job";
+            this.txtFileName.Text = "validation_parts_rev3.Job";
             // 
             // label1
             // 
@@ -207,6 +248,15 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "show slice";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 13);
+            this.label4.TabIndex = 29;
+            this.label4.Text = "Filename (*.job, *.sli)";
             // 
             // button2
             // 
@@ -400,7 +450,7 @@
             this.txtSliFileName.Name = "txtSliFileName";
             this.txtSliFileName.Size = new System.Drawing.Size(425, 20);
             this.txtSliFileName.TabIndex = 9;
-            this.txtSliFileName.Text = "D:\\Entwicklung\\VC\\ThermoBoxEmgu\\_test_files_\\Validierung_Schaufel_rev3.Job";
+            this.txtSliFileName.Text = "validation_parts_rev3.Job";
             // 
             // button1
             // 
@@ -411,6 +461,166 @@
             this.button1.Text = "open";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.label15);
+            this.tabPage4.Controls.Add(this.label14);
+            this.tabPage4.Controls.Add(this.groupBox1);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.listMachines);
+            this.tabPage4.Controls.Add(this.txtPsw);
+            this.tabPage4.Controls.Add(this.label8);
+            this.tabPage4.Controls.Add(this.txtUser);
+            this.tabPage4.Controls.Add(this.label7);
+            this.tabPage4.Controls.Add(this.txtHost);
+            this.tabPage4.Controls.Add(this.label6);
+            this.tabPage4.Controls.Add(this.button3);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(821, 346);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "DB-Connect";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.labServerTime);
+            this.groupBox1.Controls.Add(this.labLayerNr);
+            this.groupBox1.Controls.Add(this.labStatusText);
+            this.groupBox1.Controls.Add(this.labLayerzDelta);
+            this.groupBox1.Controls.Add(this.labLayer);
+            this.groupBox1.Location = new System.Drawing.Point(427, 26);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(334, 222);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "State";
+            // 
+            // labServerTime
+            // 
+            this.labServerTime.AutoSize = true;
+            this.labServerTime.Location = new System.Drawing.Point(18, 37);
+            this.labServerTime.Name = "labServerTime";
+            this.labServerTime.Size = new System.Drawing.Size(75, 13);
+            this.labServerTime.TabIndex = 12;
+            this.labServerTime.Text = "labServerTime";
+            // 
+            // labLayerNr
+            // 
+            this.labLayerNr.AutoSize = true;
+            this.labLayerNr.Location = new System.Drawing.Point(19, 82);
+            this.labLayerNr.Name = "labLayerNr";
+            this.labLayerNr.Size = new System.Drawing.Size(58, 13);
+            this.labLayerNr.TabIndex = 11;
+            this.labLayerNr.Text = "labLayerNr";
+            // 
+            // labStatusText
+            // 
+            this.labStatusText.Location = new System.Drawing.Point(19, 128);
+            this.labStatusText.Name = "labStatusText";
+            this.labStatusText.Size = new System.Drawing.Size(299, 85);
+            this.labStatusText.TabIndex = 10;
+            this.labStatusText.Text = "labStatusText";
+            // 
+            // labLayerzDelta
+            // 
+            this.labLayerzDelta.AutoSize = true;
+            this.labLayerzDelta.Location = new System.Drawing.Point(19, 100);
+            this.labLayerzDelta.Name = "labLayerzDelta";
+            this.labLayerzDelta.Size = new System.Drawing.Size(77, 13);
+            this.labLayerzDelta.TabIndex = 9;
+            this.labLayerzDelta.Text = "labLayerzDelta";
+            // 
+            // labLayer
+            // 
+            this.labLayer.AutoSize = true;
+            this.labLayer.Location = new System.Drawing.Point(18, 16);
+            this.labLayer.Name = "labLayer";
+            this.labLayer.Size = new System.Drawing.Size(47, 13);
+            this.labLayer.TabIndex = 8;
+            this.labLayer.Text = "labLayer";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(214, 23);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(56, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Machines:";
+            // 
+            // listMachines
+            // 
+            this.listMachines.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.listMachines.FormattingEnabled = true;
+            this.listMachines.Location = new System.Drawing.Point(228, 39);
+            this.listMachines.Name = "listMachines";
+            this.listMachines.Size = new System.Drawing.Size(146, 21);
+            this.listMachines.TabIndex = 8;
+            this.listMachines.SelectedIndexChanged += new System.EventHandler(this.listMachines_SelectedIndexChanged);
+            // 
+            // txtPsw
+            // 
+            this.txtPsw.Location = new System.Drawing.Point(41, 137);
+            this.txtPsw.Name = "txtPsw";
+            this.txtPsw.PasswordChar = '*';
+            this.txtPsw.Size = new System.Drawing.Size(115, 20);
+            this.txtPsw.TabIndex = 6;
+            this.txtPsw.Text = "%admin4L0gDB.#";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 121);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(56, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Password:";
+            // 
+            // txtUser
+            // 
+            this.txtUser.Location = new System.Drawing.Point(41, 85);
+            this.txtUser.Name = "txtUser";
+            this.txtUser.Size = new System.Drawing.Size(115, 20);
+            this.txtUser.TabIndex = 4;
+            this.txtUser.Text = "LogDBAdmin";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(25, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "User";
+            // 
+            // txtHost
+            // 
+            this.txtHost.Location = new System.Drawing.Point(41, 42);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(115, 20);
+            this.txtHost.TabIndex = 2;
+            this.txtHost.Text = "192.168.1.28";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(25, 26);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Server / Host:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(41, 185);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(115, 37);
+            this.button3.TabIndex = 0;
+            this.button3.Text = "connect";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabPage3
             // 
@@ -455,14 +665,151 @@
             this.lstError.Size = new System.Drawing.Size(815, 303);
             this.lstError.TabIndex = 0;
             // 
-            // label4
+            // timer_refreshState
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 3);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 13);
-            this.label4.TabIndex = 29;
-            this.label4.Text = "Filename (*.job, *.sli)";
+            this.timer_refreshState.Interval = 2000;
+            this.timer_refreshState.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.lstJobs);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(821, 346);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "DB: Jobs";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // lstJobs
+            // 
+            this.lstJobs.FullRowSelect = true;
+            this.lstJobs.Location = new System.Drawing.Point(3, 3);
+            this.lstJobs.Name = "lstJobs";
+            this.lstJobs.Size = new System.Drawing.Size(654, 333);
+            this.lstJobs.TabIndex = 0;
+            this.lstJobs.UseCompatibleStateImageBehavior = false;
+            this.lstJobs.View = System.Windows.Forms.View.Details;
+            this.lstJobs.SelectedIndexChanged += new System.EventHandler(this.lstJobs_SelectedIndexChanged);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.label13);
+            this.tabPage6.Controls.Add(this.label12);
+            this.tabPage6.Controls.Add(this.lstEvents);
+            this.tabPage6.Controls.Add(this.lstLayers);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(821, 346);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "DB: Layer + Log";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // lstLayers
+            // 
+            this.lstLayers.FullRowSelect = true;
+            this.lstLayers.Location = new System.Drawing.Point(50, 6);
+            this.lstLayers.Name = "lstLayers";
+            this.lstLayers.Size = new System.Drawing.Size(680, 220);
+            this.lstLayers.TabIndex = 1;
+            this.lstLayers.UseCompatibleStateImageBehavior = false;
+            this.lstLayers.View = System.Windows.Forms.View.Details;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.label11);
+            this.tabPage7.Controls.Add(this.label10);
+            this.tabPage7.Controls.Add(this.lstParts);
+            this.tabPage7.Controls.Add(this.lstJobInfo);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(821, 346);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "DB: Parts + Config";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // lstJobInfo
+            // 
+            this.lstJobInfo.FullRowSelect = true;
+            this.lstJobInfo.Location = new System.Drawing.Point(10, 25);
+            this.lstJobInfo.Name = "lstJobInfo";
+            this.lstJobInfo.Size = new System.Drawing.Size(798, 136);
+            this.lstJobInfo.TabIndex = 5;
+            this.lstJobInfo.UseCompatibleStateImageBehavior = false;
+            this.lstJobInfo.View = System.Windows.Forms.View.Details;
+            // 
+            // lstEvents
+            // 
+            this.lstEvents.FullRowSelect = true;
+            this.lstEvents.Location = new System.Drawing.Point(50, 232);
+            this.lstEvents.Name = "lstEvents";
+            this.lstEvents.Size = new System.Drawing.Size(768, 111);
+            this.lstEvents.TabIndex = 5;
+            this.lstEvents.UseCompatibleStateImageBehavior = false;
+            this.lstEvents.View = System.Windows.Forms.View.Details;
+            // 
+            // lstParts
+            // 
+            this.lstParts.FullRowSelect = true;
+            this.lstParts.Location = new System.Drawing.Point(10, 180);
+            this.lstParts.Name = "lstParts";
+            this.lstParts.Size = new System.Drawing.Size(798, 163);
+            this.lstParts.TabIndex = 6;
+            this.lstParts.UseCompatibleStateImageBehavior = false;
+            this.lstParts.View = System.Windows.Forms.View.Details;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 13);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "Job Parameters:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 164);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "Parts:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 6);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 13);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Layers:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 232);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(28, 13);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Log:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 319);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(28, 13);
+            this.label14.TabIndex = 11;
+            this.label14.Text = "Info:";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(49, 319);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(293, 13);
+            this.label15.TabIndex = 12;
+            this.label15.Text = "First, select a [Job], then you can use [Layer] and [Parts] tab.";
             // 
             // Form1
             // 
@@ -479,8 +826,17 @@
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picOutput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sliceLayer)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -526,6 +882,37 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox txtPsw;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtUser;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtHost;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox listMachines;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label labServerTime;
+        private System.Windows.Forms.Label labLayerNr;
+        private System.Windows.Forms.Label labStatusText;
+        private System.Windows.Forms.Label labLayerzDelta;
+        private System.Windows.Forms.Label labLayer;
+        private System.Windows.Forms.Timer timer_refreshState;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.ListView lstJobs;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.ListView lstLayers;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.ListView lstJobInfo;
+        private System.Windows.Forms.ListView lstEvents;
+        private System.Windows.Forms.ListView lstParts;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
 
     }
 }

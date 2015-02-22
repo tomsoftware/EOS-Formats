@@ -111,29 +111,29 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sli-format\clError.cpp" />
-    <ClCompile Include="sli-format\clFile.cpp" />
-    <ClCompile Include="sli-format\clJobFile.cpp" />
-    <ClCompile Include="sli-format\clJobFileInterpreter.cpp" />
-    <ClCompile Include="sli-format\clJobSliceFile.cpp" />
-    <ClCompile Include="sli-format\clSliceData.cpp" />
-    <ClCompile Include="sli-format\clSliFile.cpp" />
-    <ClCompile Include="sli-format\export_lib_job.cpp" />
-    <ClCompile Include="sli-format\export_lib_sli.cpp" />
-    <ClCompile Include="sli-format\main.cpp" />
+    <ClCompile Include="source\clError.cpp" />
+    <ClCompile Include="source\clFile.cpp" />
+    <ClCompile Include="source\clJobFile.cpp" />
+    <ClCompile Include="source\clJobFileInterpreter.cpp" />
+    <ClCompile Include="source\clJobSliceFile.cpp" />
+    <ClCompile Include="source\clSliceData.cpp" />
+    <ClCompile Include="source\clSliFile.cpp" />
+    <ClCompile Include="source\export_lib_job.cpp" />
+    <ClCompile Include="source\export_lib_sli.cpp" />
+    <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sli-format\abstractSliceFile.h" />
-    <ClInclude Include="sli-format\clError.h" />
-    <ClInclude Include="sli-format\clFile.h" />
-    <ClInclude Include="sli-format\clJobFile.h" />
-    <ClInclude Include="sli-format\clJobFileInterpreter.h" />
-    <ClInclude Include="sli-format\clJobSliceFile.h" />
-    <ClInclude Include="sli-format\clSliceData.h" />
-    <ClInclude Include="sli-format\clSliFile.h" />
-    <ClInclude Include="sli-format\export_lib_job.h" />
-    <ClInclude Include="sli-format\export_lib_sli.h" />
-    <ClInclude Include="sli-format\main.h" />
+    <ClInclude Include="source\abstractSliceFile.h" />
+    <ClInclude Include="source\clError.h" />
+    <ClInclude Include="source\clFile.h" />
+    <ClInclude Include="source\clJobFile.h" />
+    <ClInclude Include="source\clJobFileInterpreter.h" />
+    <ClInclude Include="source\clJobSliceFile.h" />
+    <ClInclude Include="source\clSliceData.h" />
+    <ClInclude Include="source\clSliFile.h" />
+    <ClInclude Include="source\export_lib_job.h" />
+    <ClInclude Include="source\export_lib_sli.h" />
+    <ClInclude Include="source\main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
