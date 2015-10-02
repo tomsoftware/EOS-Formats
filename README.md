@@ -16,7 +16,7 @@ sli-format
 Demo
 ----
 * Demonstration application for job-format-library to view .job files in a treeview
-* open and view/rander EOS-sli file
+* open and view/render EOS-sli files
 * Query EOS-DB to get information about current build process and finished jobs
 * C# (visual Studio 2013)<br />
 <code> /Demo/Release/Demo.exe</code>
