@@ -3,7 +3,7 @@ EOS-Formats
 
 job-format
 ----------
-* read .job files of the Process-controlling-Software of 3D Printers from EOS GmbH(c) 
+* read .job files of the Process-controlling-Software (PSW Software) of 3D Printers from EOS GmbH(c) 
 * C++ Library (visual Studio 2013)
 * or use as commad line tool to convert eos .job files to .xml.<br />
 
