@@ -3,7 +3,7 @@
 //- Math macros -//
 #define ABS(a) (((a)>=0)?(a):(-(a)))
 #define MIN(a,b) (((a)<(b))?(a):(b))
-
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
 //---------------------------------------------------//
 clSliFile::clSliFile()
@@ -71,8 +71,10 @@ bool clSliFile::readFromFile(const char * filename)
 	}
 
 	int posName = -1;
-	posName = max(posName, strIndexOfLast(filename, '\\', 1024));
-	posName = max(posName, strIndexOfLast(filename, '/', 1024));
+	posName = MAX(posName, strIndexOfLast(filename, '\\', 1024));
+	posName = MAX(posName, strIndexOfLast(filename, '/', 1024));
+
+	#pragma warning(disable : 4996)
 	strncpy(m_partName, &filename[posName + 1], sizeof(m_partName));
 
 	m_FileHead.version = m_file.readIntBE(2);

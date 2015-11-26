@@ -76,11 +76,17 @@ namespace Demo
         //---------------------------------------------------//
         public bool readFromFile(string filename)
         {
-            int ret = jf_readFromFile(m_lib, Str2CChr(filename));
-            if (ret > 0) return true;
+            try
+            {
+                int ret = jf_readFromFile(m_lib, Str2CChr(filename));
+                if (ret > 0) return true;
 
-            System.Windows.Forms.MessageBox.Show("jf_readFromFile Error: "+ ret);
-
+                System.Windows.Forms.MessageBox.Show("jf_readFromFile Error: " + ret);
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("jf_initLib Error: " + e.Message);
+            }
             return false;
         }
 

@@ -50,6 +50,8 @@ namespace Demo
             s_lstError = lstError;
             s_tabControl1 = tabControl1;
             s_showDebug = chkShowDebug.Checked;
+
+            txtSliFileName.Text = txtFileName.Text;
         }
 
         //---------------------------------------------------//
@@ -815,6 +817,9 @@ namespace Demo
             } 
         }
 
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

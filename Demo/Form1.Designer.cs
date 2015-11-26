@@ -65,6 +65,8 @@
             this.txtSliFileName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labServerTime = new System.Windows.Forms.Label();
             this.labLayerNr = new System.Windows.Forms.Label();
@@ -80,25 +82,23 @@
             this.txtHost = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.lstJobs = new System.Windows.Forms.ListView();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lstEvents = new System.Windows.Forms.ListView();
+            this.lstLayers = new System.Windows.Forms.ListView();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lstParts = new System.Windows.Forms.ListView();
+            this.lstJobInfo = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chkShowDebug = new System.Windows.Forms.CheckBox();
             this.btnErrorCLS = new System.Windows.Forms.Button();
             this.lstError = new System.Windows.Forms.ListBox();
             this.timer_refreshState = new System.Windows.Forms.Timer(this.components);
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.lstJobs = new System.Windows.Forms.ListView();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.lstLayers = new System.Windows.Forms.ListView();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.lstJobInfo = new System.Windows.Forms.ListView();
-            this.lstEvents = new System.Windows.Forms.ListView();
-            this.lstParts = new System.Windows.Forms.ListView();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -106,10 +106,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.sliceLayer)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -195,7 +195,7 @@
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.Size = new System.Drawing.Size(496, 20);
             this.txtFileName.TabIndex = 8;
-            this.txtFileName.Text = "validation_parts_rev3.Job";
+            this.txtFileName.Text = "box_job.job";
             // 
             // label1
             // 
@@ -248,6 +248,7 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "show slice";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // label4
             // 
@@ -439,7 +440,7 @@
             // 
             this.sliceLayer.Location = new System.Drawing.Point(575, 15);
             this.sliceLayer.Name = "sliceLayer";
-            this.sliceLayer.Size = new System.Drawing.Size(217, 42);
+            this.sliceLayer.Size = new System.Drawing.Size(217, 45);
             this.sliceLayer.TabIndex = 10;
             this.sliceLayer.TickStyle = System.Windows.Forms.TickStyle.None;
             this.sliceLayer.Scroll += new System.EventHandler(this.sliceLayer_Scroll);
@@ -450,7 +451,6 @@
             this.txtSliFileName.Name = "txtSliFileName";
             this.txtSliFileName.Size = new System.Drawing.Size(425, 20);
             this.txtSliFileName.TabIndex = 9;
-            this.txtSliFileName.Text = "validation_parts_rev3.Job";
             // 
             // button1
             // 
@@ -482,6 +482,24 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "DB-Connect";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(49, 319);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(293, 13);
+            this.label15.TabIndex = 12;
+            this.label15.Text = "First, select a [Job], then you can use [Layer] and [Parts] tab.";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 319);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(28, 13);
+            this.label14.TabIndex = 11;
+            this.label14.Text = "Info:";
             // 
             // groupBox1
             // 
@@ -622,6 +640,129 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.lstJobs);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(821, 346);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "DB: Jobs";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // lstJobs
+            // 
+            this.lstJobs.FullRowSelect = true;
+            this.lstJobs.Location = new System.Drawing.Point(3, 3);
+            this.lstJobs.Name = "lstJobs";
+            this.lstJobs.Size = new System.Drawing.Size(654, 333);
+            this.lstJobs.TabIndex = 0;
+            this.lstJobs.UseCompatibleStateImageBehavior = false;
+            this.lstJobs.View = System.Windows.Forms.View.Details;
+            this.lstJobs.SelectedIndexChanged += new System.EventHandler(this.lstJobs_SelectedIndexChanged);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.label13);
+            this.tabPage6.Controls.Add(this.label12);
+            this.tabPage6.Controls.Add(this.lstEvents);
+            this.tabPage6.Controls.Add(this.lstLayers);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(821, 346);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "DB: Layer + Log";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(10, 232);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(28, 13);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Log:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 6);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(41, 13);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Layers:";
+            // 
+            // lstEvents
+            // 
+            this.lstEvents.FullRowSelect = true;
+            this.lstEvents.Location = new System.Drawing.Point(50, 232);
+            this.lstEvents.Name = "lstEvents";
+            this.lstEvents.Size = new System.Drawing.Size(768, 111);
+            this.lstEvents.TabIndex = 5;
+            this.lstEvents.UseCompatibleStateImageBehavior = false;
+            this.lstEvents.View = System.Windows.Forms.View.Details;
+            // 
+            // lstLayers
+            // 
+            this.lstLayers.FullRowSelect = true;
+            this.lstLayers.Location = new System.Drawing.Point(50, 6);
+            this.lstLayers.Name = "lstLayers";
+            this.lstLayers.Size = new System.Drawing.Size(680, 220);
+            this.lstLayers.TabIndex = 1;
+            this.lstLayers.UseCompatibleStateImageBehavior = false;
+            this.lstLayers.View = System.Windows.Forms.View.Details;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.label11);
+            this.tabPage7.Controls.Add(this.label10);
+            this.tabPage7.Controls.Add(this.lstParts);
+            this.tabPage7.Controls.Add(this.lstJobInfo);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(821, 346);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "DB: Parts + Config";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(7, 164);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "Parts:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 13);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "Job Parameters:";
+            // 
+            // lstParts
+            // 
+            this.lstParts.FullRowSelect = true;
+            this.lstParts.Location = new System.Drawing.Point(10, 180);
+            this.lstParts.Name = "lstParts";
+            this.lstParts.Size = new System.Drawing.Size(798, 163);
+            this.lstParts.TabIndex = 6;
+            this.lstParts.UseCompatibleStateImageBehavior = false;
+            this.lstParts.View = System.Windows.Forms.View.Details;
+            // 
+            // lstJobInfo
+            // 
+            this.lstJobInfo.FullRowSelect = true;
+            this.lstJobInfo.Location = new System.Drawing.Point(10, 25);
+            this.lstJobInfo.Name = "lstJobInfo";
+            this.lstJobInfo.Size = new System.Drawing.Size(798, 136);
+            this.lstJobInfo.TabIndex = 5;
+            this.lstJobInfo.UseCompatibleStateImageBehavior = false;
+            this.lstJobInfo.View = System.Windows.Forms.View.Details;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.chkShowDebug);
@@ -670,147 +811,6 @@
             this.timer_refreshState.Interval = 2000;
             this.timer_refreshState.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.lstJobs);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(821, 346);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "DB: Jobs";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // lstJobs
-            // 
-            this.lstJobs.FullRowSelect = true;
-            this.lstJobs.Location = new System.Drawing.Point(3, 3);
-            this.lstJobs.Name = "lstJobs";
-            this.lstJobs.Size = new System.Drawing.Size(654, 333);
-            this.lstJobs.TabIndex = 0;
-            this.lstJobs.UseCompatibleStateImageBehavior = false;
-            this.lstJobs.View = System.Windows.Forms.View.Details;
-            this.lstJobs.SelectedIndexChanged += new System.EventHandler(this.lstJobs_SelectedIndexChanged);
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.label13);
-            this.tabPage6.Controls.Add(this.label12);
-            this.tabPage6.Controls.Add(this.lstEvents);
-            this.tabPage6.Controls.Add(this.lstLayers);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(821, 346);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "DB: Layer + Log";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // lstLayers
-            // 
-            this.lstLayers.FullRowSelect = true;
-            this.lstLayers.Location = new System.Drawing.Point(50, 6);
-            this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(680, 220);
-            this.lstLayers.TabIndex = 1;
-            this.lstLayers.UseCompatibleStateImageBehavior = false;
-            this.lstLayers.View = System.Windows.Forms.View.Details;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.label11);
-            this.tabPage7.Controls.Add(this.label10);
-            this.tabPage7.Controls.Add(this.lstParts);
-            this.tabPage7.Controls.Add(this.lstJobInfo);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(821, 346);
-            this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "DB: Parts + Config";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // lstJobInfo
-            // 
-            this.lstJobInfo.FullRowSelect = true;
-            this.lstJobInfo.Location = new System.Drawing.Point(10, 25);
-            this.lstJobInfo.Name = "lstJobInfo";
-            this.lstJobInfo.Size = new System.Drawing.Size(798, 136);
-            this.lstJobInfo.TabIndex = 5;
-            this.lstJobInfo.UseCompatibleStateImageBehavior = false;
-            this.lstJobInfo.View = System.Windows.Forms.View.Details;
-            // 
-            // lstEvents
-            // 
-            this.lstEvents.FullRowSelect = true;
-            this.lstEvents.Location = new System.Drawing.Point(50, 232);
-            this.lstEvents.Name = "lstEvents";
-            this.lstEvents.Size = new System.Drawing.Size(768, 111);
-            this.lstEvents.TabIndex = 5;
-            this.lstEvents.UseCompatibleStateImageBehavior = false;
-            this.lstEvents.View = System.Windows.Forms.View.Details;
-            // 
-            // lstParts
-            // 
-            this.lstParts.FullRowSelect = true;
-            this.lstParts.Location = new System.Drawing.Point(10, 180);
-            this.lstParts.Name = "lstParts";
-            this.lstParts.Size = new System.Drawing.Size(798, 163);
-            this.lstParts.TabIndex = 6;
-            this.lstParts.UseCompatibleStateImageBehavior = false;
-            this.lstParts.View = System.Windows.Forms.View.Details;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 9);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(83, 13);
-            this.label10.TabIndex = 7;
-            this.label10.Text = "Job Parameters:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 164);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(34, 13);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "Parts:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 6);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(41, 13);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "Layers:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 232);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(28, 13);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "Log:";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(15, 319);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(28, 13);
-            this.label14.TabIndex = 11;
-            this.label14.Text = "Info:";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(49, 319);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(293, 13);
-            this.label15.TabIndex = 12;
-            this.label15.Text = "First, select a [Job], then you can use [Layer] and [Parts] tab.";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -830,13 +830,13 @@
             this.tabPage4.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }

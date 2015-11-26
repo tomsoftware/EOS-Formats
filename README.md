@@ -26,12 +26,12 @@ Demo
 Status
 ------
 2014-12-11
-![example1](examples/jobfile_viewer.png)
-![example2](examples/slifile_viewer.png)
-![example2](examples/db_connect.png)
-![example2](examples/db_jobs.png)
-![example2](examples/db_log.png)
-![example2](examples/db_parts_config.png)
+![example1](images/jobfile_viewer.png)
+![example2](images/slifile_viewer.png)
+![example2](images/db_connect.png)
+![example2](images/db_jobs.png)
+![example2](images/db_log.png)
+![example2](images/db_parts_config.png)
 
 ---
 EOS is a registered trademark of EOS GmbH and not involved in this project
