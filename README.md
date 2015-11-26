@@ -3,7 +3,7 @@ EOS-Formats
 
 job-format
 ----------
-* read .job files of the Process-controlling-Software (PSW Software) of 3D Printers from EOS GmbH(c) 
+* read .job files of the Process-controlling-Software (create with PSW Software) of 3D Printers from EOS GmbH(c) 
 * C++ Library (visual Studio 2015)
 * or use as commad line tool to convert eos .job files to .xml.<br />
 
@@ -11,6 +11,7 @@ job-format
 sli-format
 ----------
 * read .sli "Slice Layer Interface" (Proprietary form of the "Common Layer Interface" format)
+* [Magic number](https://en.wikipedia.org/wiki/File_format#Magic_number) of the File format: : `EOS 1993 SLI FILE` 
 * C++ Library (visual Studio 2015)
 
 Demo
