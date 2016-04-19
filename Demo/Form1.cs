@@ -201,6 +201,8 @@ namespace Demo
         //----------------------------------------------//
         void showLayer(int layerIndex=-1)
         {
+            if (sliFile == null) return;
+
             //- don't run this more then once the same time
             if (m_doingRender) return;
             m_doingRender = true;

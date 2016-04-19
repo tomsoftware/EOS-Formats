@@ -52,17 +52,17 @@ bool clJobSliceFile::readFromFile(const char * filename)
 	m_SliFiles = new tySliFile[m_SliFilesCount];
 
 	 
-	int clild = job.getFirstChild(PartsKey);
+	int child = job.getFirstChild(PartsKey);
 	int partID = 0;
 
-	while (clild>0)
+	while (child>0)
 	{
 		//- get keys to propertys
-		int prop_ExpParName = job.getProperty(clild, "ExpParName");
-		int prop_FileName = job.getProperty(clild, "FileName");
-		int prop_x = job.getProperty(clild, "x");
-		int prop_y = job.getProperty(clild, "y");
-		int prop_rotation = job.getProperty(clild, "Rotation");
+		int prop_ExpParName = job.getProperty(child, "ExpParName");
+		int prop_FileName = job.getProperty(child, "FileName");
+		int prop_x = job.getProperty(child, "x");
+		int prop_y = job.getProperty(child, "y");
+		int prop_rotation = job.getProperty(child, "Rotation");
 		
 		//- check if propertys available
 		if ((prop_ExpParName > 0) && (prop_FileName > 0))
@@ -79,7 +79,7 @@ bool clJobSliceFile::readFromFile(const char * filename)
 			if (openPartFile(part, filename))
 			{
 				//- copy propertys
-				strCopy(part->partName, job.getKeyName(clild), sizeof(part->partName));
+				strCopy(part->partName, job.getKeyName(child), sizeof(part->partName));
 
 
 				strCopy(part->exposureProfile, job.getPropertyValue(prop_ExpParName), sizeof(part->exposureProfile));
@@ -101,18 +101,18 @@ bool clJobSliceFile::readFromFile(const char * filename)
 			}
 			else
 			{
-				m_error.AddError("File for Part [%s] not found [%s]", job.getKeyName(clild), part->fileName);
+				m_error.AddError("File for Part [%s] not found [%s]", job.getKeyName(child), part->fileName);
 			}
 		}
 		else
 		{
-			m_error.AddError("Missing information for Part [%s]", job.getKeyName(clild));
+			m_error.AddError("Missing information for Part [%s]", job.getKeyName(child));
 		}
 
-		m_error.AddDebug("%s", job.getKeyName(clild));
+		m_error.AddDebug("%s", job.getKeyName(child));
 
 		//- read next key in .job-file
-		clild = job.getNextChild(clild);
+		child = job.getNextChild(child);
 
 
 	}

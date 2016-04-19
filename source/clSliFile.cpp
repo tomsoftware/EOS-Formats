@@ -221,12 +221,12 @@ inline int clSliFile::checkLayerPos(int * minIndex, int * maxIndex, int index2Ch
 
 	float delta = LayerPos - m_IndexTable[index2Check].layerPos;
 
-	if (delta > 0.001f)
+	if (delta > m_LayerThickness * 0.5f)
 	{
 		*minIndex = index2Check + 1;
 		return +1;
 	}
-	else if (delta < -0.001f)
+	else if (delta < -m_LayerThickness * 0.5f)
 	{
 		*maxIndex = index2Check - 1;
 		return -1;
@@ -238,7 +238,13 @@ inline int clSliFile::checkLayerPos(int * minIndex, int * maxIndex, int index2Ch
 	
 }
 
-//---------------------------------------------------//
+
+// Returns the Layer-Index for a given Layer-Postion.
+//
+//@param PartIndex: Index of the Part
+//@param LayerPos: Layer Position in [mm]
+//@return an Index >=0 ; On error this function returns -1
+//
 int clSliFile::getLayerIndexByPos(int PartIndex, float LayerPos)
 {
 	if (PartIndex != 0) return -1;
@@ -255,8 +261,8 @@ int clSliFile::getLayerIndexByPos(int PartIndex, float LayerPos)
 	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 0, LayerPos) == 0) { m_currentLayerIndex += 0;  return m_currentLayerIndex; }
 	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 1, LayerPos) == 0) { m_currentLayerIndex += 1;  return m_currentLayerIndex; }
 	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex - 1, LayerPos) == 0) { m_currentLayerIndex -= 1;  return m_currentLayerIndex; }
-	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 5, LayerPos) == 0) { m_currentLayerIndex += 2;  return m_currentLayerIndex; }
-	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex - 5, LayerPos) == 0) { m_currentLayerIndex -= 2;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex + 2, LayerPos) == 0) { m_currentLayerIndex += 2;  return m_currentLayerIndex; }
+	if (checkLayerPos(&minIndex, &maxIndex, m_currentLayerIndex - 2, LayerPos) == 0) { m_currentLayerIndex -= 2;  return m_currentLayerIndex; }
 
 
 	//- Binary search of position/index

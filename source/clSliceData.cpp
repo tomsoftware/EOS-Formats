@@ -3,6 +3,7 @@
 //- Math macros -//
 #define ABS(a) (((a)>=0)?(a):(-(a)))
 #define ROUND(x) floor((x)+0.5)
+#define ROUND_INT(x) (int)(floor((x)+0.5))
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 #define SWAP(a, b)	{ int swaptmp = (b); (b) = (a); (a) = swaptmp; }
@@ -193,10 +194,10 @@ bool clSliceData::drawRasteredObject(int *outFilledPicture, int * outLinePicture
 				y2 = *pPoint++;
 
 				//- draw polygon line
-				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
+				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, ROUND_INT(x1), ROUND_INT(y1), ROUND_INT(x2), ROUND_INT(y2), color);
 
 				//- add points for add Edge flag algorithm
-				if (outFilledPicture != NULL) addEdgeflag(outFilledPicture, width, height, ROUND(x1), ROUND(y1), ROUND(x2), ROUND(y2), color);
+				if (outFilledPicture != NULL) addEdgeflag(outFilledPicture, width, height, ROUND_INT(x1), ROUND_INT(y1), ROUND_INT(x2), ROUND_INT(y2), color);
 
 				x1 = x2;
 				y1 = y2;
@@ -234,7 +235,7 @@ bool clSliceData::drawRasteredObject(int *outFilledPicture, int * outLinePicture
 				float y2 = *pPoint++;
 
 				//- draw hatch lines
-				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, x1, y1, x2, y2, color);
+				if (outLinePicture != NULL) drawLine(outLinePicture, width, height, (int)x1, (int)y1, (int)x2, (int)y2, color);
 			}
 		}
 	}
@@ -501,7 +502,7 @@ int clSliceData::addEdgeflag(int * DataDest, int width, int height, int x1, int 
 {
 	if (DataDest == 0) return -1;
 
-	//- Quelle: http://hullooo.blogspot.de/2011/02/solid-area-scan-conversion.html
+	//- Source: http://hullooo.blogspot.de/2011/02/solid-area-scan-conversion.html
 	int plotx, ploty;
 	double slope_inv, xintersection, yintersection;
 

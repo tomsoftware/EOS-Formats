@@ -18,20 +18,20 @@ struct tyLibraryInterface
 //---- DLL EXPORTS ------//
 #define DllExport extern "C" __declspec(dllexport)
 
-DllExport int sf_initLib();
-DllExport void sf_freeLib(int sliI);
-DllExport int sf_readFromFile(int sliI, char * fileName);
-DllExport int sf_getLayerCount(int sliI, int partIndex);
-DllExport int sf_readSliceData(int sliI, int partIndex, int layerIndex);
-DllExport int sf_addRasterObject(int sliI, int * outFilledPicture, int * outLinePicture, int partIndex, clSliceData::tyMatrix matrix, int color, int width, int height);
-DllExport int sf_getPartCount(int sliI);
+DllExport int    sf_initLib();
+DllExport void   sf_freeLib(int sliI);
+DllExport int    sf_readFromFile(int sliI, char * fileName);
+DllExport int    sf_getLayerCount(int sliI, int partIndex);
+DllExport int    sf_readSliceData(int sliI, int partIndex, int layerIndex);
+DllExport int    sf_addRasterObject(int sliI, int * outFilledPicture, int * outLinePicture, int partIndex, clSliceData::tyMatrix matrix, int color, int width, int height);
+DllExport int    sf_getPartCount(int sliI);
 DllExport char * sf_getPartName(int sliI, int partIndex);
 DllExport char * sf_getPartProperty(int sliI, int partIndex);
-DllExport float sf_getLayerPos(int sliI, int partIndex, int layerIndex);
-DllExport int sf_getLayerIndexByPos(int sliI, int partIndex, float layerPos);
+DllExport float  sf_getLayerPos(int sliI, int partIndex, int layerIndex);
+DllExport int    sf_getLayerIndexByPos(int sliI, int partIndex, float layerPos);
 DllExport char * sf_getLastError();
 DllExport char * sf_getLastDebug();
-DllExport float sf_getMaxLayerPos(int sliI, int partIndex);
-DllExport float sf_getLayerThickness(int sliI);
+DllExport float  sf_getMaxLayerPos(int sliI, int partIndex);
+DllExport float  sf_getLayerThickness(int sliI);
 
 #endif
