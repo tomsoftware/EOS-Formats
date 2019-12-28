@@ -23,6 +23,14 @@ Demo
 <code> /examples/Demo.exe</code>
 
 
+c#-sli-library (additional stuff)
+----
+in the directory `c#-sli-library` you can find a c# library to access the .sli and .cli format with the following drawbacks:
+* no visual studio project
+* you need to replace the error handling
+* code comments in German
+
+
 
 Status
 ------
