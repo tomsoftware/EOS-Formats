@@ -29,7 +29,7 @@ in the directory `c#-sli-library` you can find a c# library to access the .sli a
 * no visual studio project
 * you need to replace the error handling
 * code comments in German
-
+> to any body: feel free to clean up this and send a pull request :-) - I do not have time for this at the moment!
 
 
 Status
